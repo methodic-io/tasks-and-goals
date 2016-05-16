@@ -40,6 +40,8 @@ group :development, :test do
 
   # Use Rspec for testing.
   gem 'rspec-rails'
+  # Use Rubocop for static code analysis
+  gem 'rubocop', require: false
 end
 
 group :development do
