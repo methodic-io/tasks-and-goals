@@ -1,21 +1,10 @@
 class CreateCoreModels < ActiveRecord::Migration
   def change
-    create_table :foci do |t|
-    end
-
-    create_table :goals do |t|
-    end
-
-    create_table :groups do |t|
-    end
-
-    create_table :lists do |t|
-    end
-
-    create_table :subtasks do |t|
-    end
-
-    create_table :tasks do |t|
+    [:foci, :goals, :groups, :lists, :subtasks, :tasks].each do |table|
+      create_table table do |t|
+        t.timestamps
+        t.datetime :deleted_at
+      end
     end
   end
 end

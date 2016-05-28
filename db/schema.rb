@@ -14,21 +14,39 @@
 ActiveRecord::Schema.define(version: 20160528132644) do
 
   create_table "foci", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "goals", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "groups", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "lists", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "subtasks", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
 end
