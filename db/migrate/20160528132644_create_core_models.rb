@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CreateCoreModels < ActiveRecord::Migration
   def change
     [:foci, :goals, :groups, :lists, :subtasks, :tasks].each do |table|
