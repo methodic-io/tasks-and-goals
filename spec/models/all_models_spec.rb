@@ -10,11 +10,8 @@ RSpec.describe 'All Models' do
   user_created_models = ActiveRecord::Base.descendants - [ActiveRecord::SchemaMigration]
 
   user_created_models.each do |model|
-
     describe model do
       it { should respond_to(*required_attributes) }
     end
-
   end
-
 end

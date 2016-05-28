@@ -4,5 +4,4 @@
 require 'rails_helper'
 
 RSpec.describe Focus do
-
 end
