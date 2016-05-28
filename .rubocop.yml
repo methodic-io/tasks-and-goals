@@ -7,3 +7,4 @@ AllCops:
     - '**/config.ru'
   Exclude:
     - 'db/schema.rb'
+    - 'vendor/bundle/**/*'
