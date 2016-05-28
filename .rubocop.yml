@@ -3,3 +3,7 @@ Rails:
 
 AllCops:
   TargetRubyVersion: 2.3
+  Include:
+    - '**/config.ru'
+  Exclude:
+    - 'db/schema.rb'
