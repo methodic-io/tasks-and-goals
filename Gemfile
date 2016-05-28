@@ -41,6 +41,9 @@ group :development, :test do
   # debugger console
   gem 'byebug'
 
+  # Checks for security advisories in the gems we use
+  gem 'bundler-audit', require: false
+
   # Use Rspec for testing.
   gem 'rspec-rails'
   # Use Rubocop for static code analysis
