@@ -19,6 +19,6 @@ RSpec.describe Subtask do
   end
 
   describe '#complete' do
-    it { expect(subject.complete).to be_a(Boolean) }
+    it { expect(subject.complete).to be_boolean }
   end
 end

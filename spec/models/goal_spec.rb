@@ -37,27 +37,27 @@ RSpec.describe Goal do
   end
 
   describe '#specific' do
-    it { expect(subject.specific).to be_a(Boolean) }
+    it { expect(subject.specific).to be_boolean }
   end
 
   describe '#measurable' do
-    it { expect(subject.measurable).to be_a(Boolean) }
+    it { expect(subject.measurable).to be_boolean }
   end
 
   describe '#attainable' do
-    it { expect(subject.attainable).to be_a(Boolean) }
+    it { expect(subject.attainable).to be_boolean }
   end
 
   describe '#relevant' do
-    it { expect(subject.releavant).to be_a(Boolean) }
+    it { expect(subject.releavant).to be_boolean }
   end
 
   describe '#timely' do
-    it { expect(subject.timely).to be_a(Boolean) }
+    it { expect(subject.timely).to be_boolean }
   end
 
   describe '#complete' do
-    it { expect(subject.complete).to be_a(Boolean) }
+    it { expect(subject.complete).to be_boolean }
   end
 
   describe '#difficulty' do
