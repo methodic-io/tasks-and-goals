@@ -11,7 +11,7 @@ RSpec.describe Focus do
   it { should respond_to(:position) }
 
   describe '#label' do
-    it { is_expected(subject.label).to be_a(String) }
+    it { expect(subject.label).to be_a(String) }
 
     it 'should not support string longer than 255 characters' do
       expect { subject.update_column(:label, Faker::Lorem.characters(256)) }.
@@ -20,7 +20,7 @@ RSpec.describe Focus do
   end
 
   describe '#note' do
-    it { is_expected(subject.note).to be_a(String) }
+    it { expect(subject.note).to be_a(String) }
 
     it 'should support string longer than 255 characters' do
       expect { subject.update_column(:note, Faker::Lorem.characters(256)) }.
@@ -29,7 +29,7 @@ RSpec.describe Focus do
   end
 
   describe '#position' do
-    it { is_expected(subject.position).to be_an(Integer) }
-    it { is_expected { subject.position = -1 }.to raise_error }
+    it { expect(subject.position).to be_an(Integer) }
+    it { expect { subject.position = -1 }.to raise_error(StandardError) }
   end
 end
