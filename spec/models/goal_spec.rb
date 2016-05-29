@@ -49,7 +49,7 @@ RSpec.describe Goal do
   end
 
   describe '#relevant' do
-    it { expect(subject.releavant).to be_boolean }
+    it { expect(subject.relevant).to be_boolean }
   end
 
   describe '#timely' do
