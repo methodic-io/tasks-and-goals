@@ -20,6 +20,6 @@ RSpec.describe Focus do
 
   describe '#position' do
     it { expect(subject.position).to be_an(Integer) }
-    it { expect(build(:focus, :position => -1)).to_not be_valid }
+    it { expect(build(:focus, position: -1)).to_not be_valid }
   end
 end
