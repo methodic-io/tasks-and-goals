@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529094455) do
+ActiveRecord::Schema.define(version: 20160529135424) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -26,30 +26,61 @@ ActiveRecord::Schema.define(version: 20160529094455) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "label"
+    t.text     "note"
+    t.integer  "position"
+    t.datetime "due_at"
+    t.boolean  "specific",   default: false
+    t.boolean  "measurable", default: false
+    t.boolean  "attainable", default: false
+    t.boolean  "relevant",   default: false
+    t.boolean  "timely",     default: false
+    t.boolean  "complete",   default: false
+    t.integer  "difficulty", default: 0
+    t.integer  "importance", default: 0
+    t.integer  "urgency",    default: 0
   end
 
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "label"
+    t.boolean  "open",       default: false
+    t.integer  "position"
   end
 
   create_table "lists", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "label"
+    t.integer  "position"
   end
 
   create_table "subtasks", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "label"
+    t.integer  "position"
+    t.boolean  "complete",   default: false
   end
 
   create_table "tasks", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "label"
+    t.text     "note"
+    t.integer  "position"
+    t.datetime "due_at"
+    t.datetime "reminder_at"
+    t.string   "repeat_frequency"
+    t.boolean  "complete",         default: false
+    t.integer  "difficulty",       default: 0
+    t.integer  "importance",       default: 0
+    t.integer  "urgency",          default: 0
   end
 
 end
