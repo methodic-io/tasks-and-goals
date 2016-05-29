@@ -11,12 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160528132644) do
+ActiveRecord::Schema.define(version: 20160529094455) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "label"
+    t.text     "note"
+    t.integer  "position"
   end
 
   create_table "goals", force: :cascade do |t|
