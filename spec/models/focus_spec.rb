@@ -12,20 +12,10 @@ RSpec.describe Focus do
 
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
-
-    it 'should not support string longer than 255 characters' do
-      expect { subject.update_column(:label, Faker::Lorem.characters(256)) }.
-        to raise_error(StandardError)
-    end
   end
 
   describe '#note' do
     it { expect(subject.note).to be_a(String) }
-
-    it 'should support string longer than 255 characters' do
-      expect { subject.update_column(:note, Faker::Lorem.characters(256)) }.
-        to raise_error(StandardError)
-    end
   end
 
   describe '#position' do
