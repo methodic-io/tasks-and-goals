@@ -8,3 +8,11 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/bundle/**/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/**/*'
+
+Documentation:
+  Exclude:
+    - 'db/**/*'
