@@ -33,7 +33,7 @@ RSpec.describe Goal do
   end
 
   describe '#due_at' do
-    it { expect(subject.due_at).to be_a(DateTime) }
+    it { expect(subject.due_at).to be_an(ActiveSupport::TimeWithZone) }
   end
 
   describe '#specific' do

@@ -30,11 +30,11 @@ RSpec.describe Task do
   end
 
   describe '#due_at' do
-    it { expect(subject.due_at).to be_a(DateTime) }
+    it { expect(subject.due_at).to be_an(ActiveSupport::TimeWithZone) }
   end
 
   describe '#reminder_at' do
-    it { expect(subject.reminder_at).to be_a(DateTime) }
+    it { expect(subject.reminder_at).to be_an(ActiveSupport::TimeWithZone) }
   end
 
   describe '#repeat_frequency' do
