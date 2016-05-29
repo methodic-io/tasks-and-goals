@@ -3,7 +3,7 @@
 
 FactoryGirl.define do
   factory :group do
-    label    Faker::Lorem.words(4)
+    label    Faker::Lorem.sentence
     open     Faker::Boolean.boolean
     position Faker::Number.digit
   end

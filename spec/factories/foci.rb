@@ -3,7 +3,7 @@
 
 FactoryGirl.define do
   factory :focus do
-    label    Faker::Lorem.words(4)
+    label    Faker::Lorem.sentence
     note     Faker::Lorem.paragraph
     position Faker::Number.digit
   end

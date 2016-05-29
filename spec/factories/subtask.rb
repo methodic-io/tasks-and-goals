@@ -3,7 +3,7 @@
 
 FactoryGirl.define do
   factory :subtask do
-    label    Faker::Lorem.words(4)
+    label    Faker::Lorem.sentence
     position Faker::Number.digit
     complete Faker::Boolean.boolean
   end
