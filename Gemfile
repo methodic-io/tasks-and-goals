@@ -49,6 +49,8 @@ group :development, :test do
   gem 'rspec-rails'
   # Use Factory Girl to create fixture data when running tests.
   gem 'factory_girl_rails'
+  # Use Faker to create fake data when running tests.
+  gem 'faker'
   # Use Rubocop for static code analysis.
   gem 'rubocop', require: false
 end
