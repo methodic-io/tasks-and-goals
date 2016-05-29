@@ -4,6 +4,8 @@
 require 'rails_helper'
 
 RSpec.describe Task do
+  let(:subject) { build(:task) }
+
   it { should respond_to(:label) }
   it { should respond_to(:note) }
   it { should respond_to(:position) }
@@ -14,4 +16,44 @@ RSpec.describe Task do
   it { should respond_to(:difficulty) }
   it { should respond_to(:importance) }
   it { should respond_to(:urgency) }
+
+  describe '#label' do
+    it { expect(subject.label).to be_a(String) }
+  end
+
+  describe '#note' do
+    it { expect(subject.note).to be_a(String) }
+  end
+
+  describe '#position' do
+    it { expect(subject.position).to be_an(Integer) }
+  end
+
+  describe '#due_at' do
+    it { expect(subject.label).to be_a(DateTime) }
+  end
+
+  describe '#reminder_at' do
+    it { expect(subject.note).to be_a(DateTime) }
+  end
+
+  describe '#repeat_frequency' do
+    it { expect(subject.position).to be_an(String) }
+  end
+
+  describe '#complete' do
+    it { expect(subject.label).to be_a(Boolean) }
+  end
+
+  describe '#difficulty' do
+    it { expect(subject.note).to be_a(Integer) }
+  end
+
+  describe '#importance' do
+    it { expect(subject.position).to be_an(Integer) }
+  end
+
+  describe '#urgency' do
+    it { expect(subject.position).to be_an(Integer) }
+  end
 end

@@ -4,6 +4,8 @@
 require 'rails_helper'
 
 RSpec.describe Goal do
+  let(:subject) { build(:goal) }
+
   it { should respond_to(:label) }
   it { should respond_to(:note) }
   it { should respond_to(:position) }
@@ -17,4 +19,56 @@ RSpec.describe Goal do
   it { should respond_to(:difficulty) }
   it { should respond_to(:importance) }
   it { should respond_to(:urgency) }
+
+  describe '#label' do
+    it { expect(subject.label).to be_a(String) }
+  end
+
+  describe '#note' do
+    it { expect(subject.note).to be_a(String) }
+  end
+
+  describe '#position' do
+    it { expect(subject.position).to be_an(Integer) }
+  end
+
+  describe '#due_at' do
+    it { expect(subject.label).to be_a(DateTime) }
+  end
+
+  describe '#specific' do
+    it { expect(subject.label).to be_a(Boolean) }
+  end
+
+  describe '#measurable' do
+    it { expect(subject.label).to be_a(Boolean) }
+  end
+
+  describe '#attainable' do
+    it { expect(subject.label).to be_a(Boolean) }
+  end
+
+  describe '#releavant' do
+    it { expect(subject.label).to be_a(Boolean) }
+  end
+
+  describe '#timely' do
+    it { expect(subject.label).to be_a(Boolean) }
+  end
+
+  describe '#complete' do
+    it { expect(subject.label).to be_a(Boolean) }
+  end
+
+  describe '#difficulty' do
+    it { expect(subject.note).to be_a(Integer) }
+  end
+
+  describe '#importance' do
+    it { expect(subject.position).to be_an(Integer) }
+  end
+
+  describe '#urgency' do
+    it { expect(subject.position).to be_an(Integer) }
+  end
 end

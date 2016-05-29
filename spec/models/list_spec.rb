@@ -4,6 +4,16 @@
 require 'rails_helper'
 
 RSpec.describe List do
+  let(:subject) { build(:list) }
+
   it { should respond_to(:label) }
   it { should respond_to(:position) }
+  
+  describe '#label' do
+    it { expect(subject.label).to be_a(String) }
+  end
+
+  describe '#position' do
+    it { expect(subject.position).to be_an(Integer) }
+  end
 end
