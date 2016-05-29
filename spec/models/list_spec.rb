@@ -15,5 +15,6 @@ RSpec.describe List do
 
   describe '#position' do
     it { expect(subject.position).to be_an(Integer) }
+    it { expect(build(:list, position: -1)).to_not be_valid }
   end
 end

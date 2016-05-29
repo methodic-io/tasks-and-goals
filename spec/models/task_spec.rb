@@ -27,6 +27,7 @@ RSpec.describe Task do
 
   describe '#position' do
     it { expect(subject.position).to be_an(Integer) }
+    it { expect(build(:task, position: -1)).to_not be_valid }
   end
 
   describe '#due_at' do
@@ -47,13 +48,33 @@ RSpec.describe Task do
 
   describe '#difficulty' do
     it { expect(subject.difficulty).to be_a(Integer) }
+    it { expect(build(:task, difficulty: -1)).to_not be_valid }
+    it { expect(build(:task, difficulty: 0)).to be_valid }
+    it { expect(build(:task, difficulty: 1)).to be_valid }
+    it { expect(build(:task, difficulty: 2)).to be_valid }
+    it { expect(build(:task, difficulty: 3)).to be_valid }
+    it { expect(build(:task, difficulty: 4)).to be_valid }
+    it { expect(build(:task, difficulty: 5)).to be_valid }
+    it { expect(build(:task, difficulty: 6)).to_not be_valid }
   end
 
   describe '#importance' do
     it { expect(subject.importance).to be_an(Integer) }
+    it { expect(build(:task, importance: -1)).to_not be_valid }
+    it { expect(build(:task, importance: 0)).to be_valid }
+    it { expect(build(:task, importance: 1)).to be_valid }
+    it { expect(build(:task, importance: 2)).to be_valid }
+    it { expect(build(:task, importance: 3)).to be_valid }
+    it { expect(build(:task, importance: 4)).to_not be_valid }
   end
 
   describe '#urgency' do
     it { expect(subject.urgency).to be_an(Integer) }
+    it { expect(build(:task, urgency: -1)).to_not be_valid }
+    it { expect(build(:task, urgency: 0)).to be_valid }
+    it { expect(build(:task, urgency: 1)).to be_valid }
+    it { expect(build(:task, urgency: 2)).to be_valid }
+    it { expect(build(:task, urgency: 3)).to be_valid }
+    it { expect(build(:task, urgency: 4)).to_not be_valid }
   end
 end
