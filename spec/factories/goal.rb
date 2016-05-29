@@ -3,7 +3,7 @@ FactoryGirl.define do
     label      Faker::Lorem.words(4)
     note       Faker::Lorem.paragraph
     position   Faker::Number.digit
-    due_at     Faker::Date.forward(10)
+    due_at     Faker::Time.forward(10)
     specific   Faker::Boolean.boolean
     measurable Faker::Boolean.boolean
     attainable Faker::Boolean.boolean
