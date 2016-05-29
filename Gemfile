@@ -47,7 +47,7 @@ group :development, :test do
 
   # Use Rspec for testing.
   gem 'rspec-rails'
-  # Create fixture data when running tests.
+  # Use Factory Girl to create fixture data when running tests.
   gem 'factory_girl_rails'
   # Use Rubocop for static code analysis.
   gem 'rubocop', require: false
