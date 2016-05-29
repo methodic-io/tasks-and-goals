@@ -1,5 +1,3 @@
-require 'faker'
-
 FactoryGirl.define do
   factory :focus do
     label    Faker::Lorem.words(4)
