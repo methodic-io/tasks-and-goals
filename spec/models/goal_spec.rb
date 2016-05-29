@@ -13,7 +13,7 @@ RSpec.describe Goal do
   it { should respond_to(:specific) }
   it { should respond_to(:measurable) }
   it { should respond_to(:attainable) }
-  it { should respond_to(:releavant) }
+  it { should respond_to(:relevant) }
   it { should respond_to(:timely) }
   it { should respond_to(:complete) }
   it { should respond_to(:difficulty) }
@@ -33,42 +33,42 @@ RSpec.describe Goal do
   end
 
   describe '#due_at' do
-    it { expect(subject.label).to be_a(DateTime) }
+    it { expect(subject.due_at).to be_a(DateTime) }
   end
 
   describe '#specific' do
-    it { expect(subject.label).to be_a(Boolean) }
+    it { expect(subject.specific).to be_a(Boolean) }
   end
 
   describe '#measurable' do
-    it { expect(subject.label).to be_a(Boolean) }
+    it { expect(subject.measurable).to be_a(Boolean) }
   end
 
   describe '#attainable' do
-    it { expect(subject.label).to be_a(Boolean) }
+    it { expect(subject.attainable).to be_a(Boolean) }
   end
 
-  describe '#releavant' do
-    it { expect(subject.label).to be_a(Boolean) }
+  describe '#relevant' do
+    it { expect(subject.releavant).to be_a(Boolean) }
   end
 
   describe '#timely' do
-    it { expect(subject.label).to be_a(Boolean) }
+    it { expect(subject.timely).to be_a(Boolean) }
   end
 
   describe '#complete' do
-    it { expect(subject.label).to be_a(Boolean) }
+    it { expect(subject.complete).to be_a(Boolean) }
   end
 
   describe '#difficulty' do
-    it { expect(subject.note).to be_a(Integer) }
+    it { expect(subject.difficulty).to be_a(Integer) }
   end
 
   describe '#importance' do
-    it { expect(subject.position).to be_an(Integer) }
+    it { expect(subject.importance).to be_an(Integer) }
   end
 
   describe '#urgency' do
-    it { expect(subject.position).to be_an(Integer) }
+    it { expect(subject.urgency).to be_an(Integer) }
   end
 end

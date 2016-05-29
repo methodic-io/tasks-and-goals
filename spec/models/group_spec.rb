@@ -15,7 +15,7 @@ RSpec.describe Group do
   end
 
   describe '#open' do
-    it { expect(subject.note).to be_a(Boolean) }
+    it { expect(subject.open).to be_a(Boolean) }
   end
 
   describe '#position' do

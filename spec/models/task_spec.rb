@@ -30,30 +30,30 @@ RSpec.describe Task do
   end
 
   describe '#due_at' do
-    it { expect(subject.label).to be_a(DateTime) }
+    it { expect(subject.due_at).to be_a(DateTime) }
   end
 
   describe '#reminder_at' do
-    it { expect(subject.note).to be_a(DateTime) }
+    it { expect(subject.reminder_at).to be_a(DateTime) }
   end
 
   describe '#repeat_frequency' do
-    it { expect(subject.position).to be_an(String) }
+    it { expect(subject.repeat_frequency).to be_an(String) }
   end
 
   describe '#complete' do
-    it { expect(subject.label).to be_a(Boolean) }
+    it { expect(subject.complete).to be_a(Boolean) }
   end
 
   describe '#difficulty' do
-    it { expect(subject.note).to be_a(Integer) }
+    it { expect(subject.difficulty).to be_a(Integer) }
   end
 
   describe '#importance' do
-    it { expect(subject.position).to be_an(Integer) }
+    it { expect(subject.importance).to be_an(Integer) }
   end
 
   describe '#urgency' do
-    it { expect(subject.position).to be_an(Integer) }
+    it { expect(subject.urgency).to be_an(Integer) }
   end
 end
