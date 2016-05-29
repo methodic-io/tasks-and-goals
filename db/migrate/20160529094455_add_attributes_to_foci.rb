@@ -1,4 +1,4 @@
-class AddLabelNoteAndPositionToFoci < ActiveRecord::Migration
+class AddAttributesToFoci < ActiveRecord::Migration
   def change
     add_column :foci, :label,    :string
     add_column :foci, :note,     :text
