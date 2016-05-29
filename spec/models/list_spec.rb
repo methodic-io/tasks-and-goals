@@ -8,7 +8,7 @@ RSpec.describe List do
 
   it { should respond_to(:label) }
   it { should respond_to(:position) }
-  
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end
