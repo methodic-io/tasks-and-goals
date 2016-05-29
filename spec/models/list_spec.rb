@@ -4,4 +4,6 @@
 require 'rails_helper'
 
 RSpec.describe List do
+  it { should respond_to(:label) }
+  it { should respond_to(:position) }
 end

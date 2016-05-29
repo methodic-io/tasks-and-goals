@@ -4,4 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe Subtask do
+  it { should respond_to(:label) }
+  it { should respond_to(:position) }
+  it { should respond_to(:complete) }
 end
