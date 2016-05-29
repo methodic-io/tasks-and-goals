@@ -3,7 +3,7 @@
 
 FactoryGirl.define do
   factory :task do
-    frequencies = ['never', 'daily', 'weekly', 'monthly', 'yearly']
+    frequencies = %w(never daily weekly monthly yearly)
 
     label            Faker::Lorem.words(4)
     note             Faker::Lorem.paragraph
