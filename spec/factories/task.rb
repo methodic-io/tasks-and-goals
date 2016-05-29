@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :task do
-    frequencies = [nil, 'every_day', 'every_week', 'every_month', 'every_year']
+    frequencies = ['never', 'daily', 'weekly', 'monthly', 'yearly']
 
     label            Faker::Lorem.words(4)
     note             Faker::Lorem.paragraph
