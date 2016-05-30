@@ -51,6 +51,8 @@ group :development, :test do
   gem 'factory_girl_rails'
   # Use Faker to create fake data when running tests.
   gem 'faker'
+  # Use Shoulda Matchers in order to write more expressive tests.
+  gem 'shoulda-matchers'
   # Use Rubocop for static code analysis.
   gem 'rubocop', require: false
 end
