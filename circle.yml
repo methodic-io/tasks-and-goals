@@ -3,5 +3,5 @@ machine:
     version: 2.3.0
 
 test:
-  post:
-    - bundle exec rubocop
+  override:
+    - bundle exec rake
