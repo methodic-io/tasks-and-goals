@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529135424) do
+ActiveRecord::Schema.define(version: 20160530153417) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -39,7 +39,18 @@ ActiveRecord::Schema.define(version: 20160529135424) do
     t.integer  "difficulty", default: 0
     t.integer  "importance", default: 0
     t.integer  "urgency",    default: 0
+    t.integer  "focus_id"
   end
+
+  create_table "groupings", force: :cascade do |t|
+    t.integer  "group_id"
+    t.integer  "list_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "groupings", ["group_id"], name: "index_groupings_on_group_id"
+  add_index "groupings", ["list_id"], name: "index_groupings_on_list_id"
 
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at"
@@ -50,12 +61,23 @@ ActiveRecord::Schema.define(version: 20160529135424) do
     t.integer  "position"
   end
 
+  create_table "listings", force: :cascade do |t|
+    t.integer  "list_id"
+    t.integer  "task_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "listings", ["list_id"], name: "index_listings_on_list_id"
+  add_index "listings", ["task_id"], name: "index_listings_on_task_id"
+
   create_table "lists", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string   "label"
     t.integer  "position"
+    t.integer  "goal_id"
   end
 
   create_table "subtasks", force: :cascade do |t|
@@ -65,6 +87,7 @@ ActiveRecord::Schema.define(version: 20160529135424) do
     t.string   "label"
     t.integer  "position"
     t.boolean  "complete",   default: false
+    t.integer  "task_id"
   end
 
   create_table "tasks", force: :cascade do |t|
