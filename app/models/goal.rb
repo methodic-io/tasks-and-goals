@@ -7,7 +7,10 @@ class Goal < ActiveRecord::Base
   validates :label,      presence:     true
   validates :position,   numericality: { greater_than_or_equal_to: 0 }
   validates :position,   numericality: { only_integer: true }
+  validates :difficulty, numericality: { only_integer: true }
   validates :difficulty, inclusion:    { in: 0..5 }
+  validates :importance, numericality: { only_integer: true }
   validates :importance, inclusion:    { in: 0..3 }
+  validates :urgency,    numericality: { only_integer: true }
   validates :urgency,    inclusion:    { in: 0..3 }
 end
