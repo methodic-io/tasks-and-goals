@@ -40,6 +40,9 @@ RSpec.describe Goal do
   it { should validate_inclusion_of(:urgency).in_range(0..3) }
   it { should validate_exclusion_of(:urgency).in_array([-1, 4]) }
 
+  it { should belong_to(:focus) }
+  it { should have_many(:lists) }
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end

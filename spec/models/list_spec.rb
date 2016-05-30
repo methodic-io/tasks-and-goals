@@ -17,6 +17,10 @@ RSpec.describe List do
       .is_greater_than_or_equal_to(0)
   end
 
+  it { should belong_to(:goal) }
+  it { should have_many(:groups).join_table('grouping') }
+  it { should have_many(:tasks).join_table('listing') }
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end

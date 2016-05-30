@@ -18,6 +18,8 @@ RSpec.describe Focus do
       .is_greater_than_or_equal_to(0)
   end
 
+  it { should have_many(:goals) }
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end
