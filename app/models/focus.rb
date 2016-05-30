@@ -7,4 +7,5 @@ class Focus < ActiveRecord::Base
 
   validates :label,    presence:     true
   validates :position, numericality: { greater_than_or_equal_to: 0 }
+  validates :position, numericality: { only_integer: true }
 end
