@@ -10,6 +10,8 @@ RSpec.describe Focus do
   it { should respond_to(:note) }
   it { should respond_to(:position) }
 
+  it { should validate_presence_of(:label) }
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end

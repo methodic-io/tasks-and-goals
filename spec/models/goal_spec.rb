@@ -20,6 +20,8 @@ RSpec.describe Goal do
   it { should respond_to(:importance) }
   it { should respond_to(:urgency) }
 
+  it { should validate_presence_of(:label) }
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end

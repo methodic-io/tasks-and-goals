@@ -10,6 +10,8 @@ RSpec.describe Group do
   it { should respond_to(:open) }
   it { should respond_to(:position) }
 
+  it { should validate_presence_of(:label) }
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end
