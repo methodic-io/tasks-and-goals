@@ -37,7 +37,7 @@ RSpec.describe Task do
   it { should validate_inclusion_of(:urgency).in_range(0..3) }
   it { should validate_exclusion_of(:urgency).in_array([-1, 4]) }
 
-  it { should have_many(:lists).join_table('listing') }
+  it { should have_many(:lists).through(:listings) }
   it { should have_many(:subtasks) }
 
   describe '#label' do

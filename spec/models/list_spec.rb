@@ -18,8 +18,8 @@ RSpec.describe List do
   end
 
   it { should belong_to(:goal) }
-  it { should have_many(:groups).join_table('grouping') }
-  it { should have_many(:tasks).join_table('listing') }
+  it { should have_many(:groups).through(:groupings) }
+  it { should have_many(:tasks).through(:listings) }
 
   describe '#label' do
     it { expect(subject.label).to be_a(String) }

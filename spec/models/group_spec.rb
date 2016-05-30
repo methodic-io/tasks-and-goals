@@ -18,7 +18,7 @@ RSpec.describe Group do
       .is_greater_than_or_equal_to(0)
   end
 
-  it { should have_many(:lists).join_table('grouping') }
+  it { should have_many(:lists).through(:groupings) }
 
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
