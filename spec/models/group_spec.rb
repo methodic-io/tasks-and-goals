@@ -17,7 +17,7 @@ RSpec.describe Group do
     should validate_numericality_of(:position)
       .is_greater_than_or_equal_to(0)
   end
-  
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end
