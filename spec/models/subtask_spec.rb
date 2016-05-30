@@ -11,14 +11,19 @@ RSpec.describe Subtask do
   it { should respond_to(:complete) }
 
   it { should validate_presence_of(:label) }
+  it { should validate_numericality_of(:position).only_integer }
 
+  it do
+    should validate_numericality_of(:position)
+      .is_greater_than_or_equal_to(0)
+  end
+  
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end
 
   describe '#position' do
     it { expect(subject.position).to be_an(Integer) }
-    it { expect(build(:subtask, position: -1)).to_not be_valid }
   end
 
   describe '#complete' do
