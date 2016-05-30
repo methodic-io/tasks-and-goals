@@ -25,6 +25,13 @@ RSpec.describe Task do
       .is_greater_than_or_equal_to(0)
   end
 
+  it { should validate_numericality_of(:difficulty).only_integer }
+  it { should validate_inclusion_of(:difficulty).in_range(0..5) }
+  it { should validate_numericality_of(:importance).only_integer }
+  it { should validate_inclusion_of(:importance).in_range(0..3) }
+  it { should validate_numericality_of(:urgency).only_integer }
+  it { should validate_inclusion_of(:urgency).in_range(0..3) }
+
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
   end
@@ -55,33 +62,13 @@ RSpec.describe Task do
 
   describe '#difficulty' do
     it { expect(subject.difficulty).to be_a(Integer) }
-    it { expect(build(:task, difficulty: -1)).to_not be_valid }
-    it { expect(build(:task, difficulty: 0)).to be_valid }
-    it { expect(build(:task, difficulty: 1)).to be_valid }
-    it { expect(build(:task, difficulty: 2)).to be_valid }
-    it { expect(build(:task, difficulty: 3)).to be_valid }
-    it { expect(build(:task, difficulty: 4)).to be_valid }
-    it { expect(build(:task, difficulty: 5)).to be_valid }
-    it { expect(build(:task, difficulty: 6)).to_not be_valid }
   end
 
   describe '#importance' do
     it { expect(subject.importance).to be_an(Integer) }
-    it { expect(build(:task, importance: -1)).to_not be_valid }
-    it { expect(build(:task, importance: 0)).to be_valid }
-    it { expect(build(:task, importance: 1)).to be_valid }
-    it { expect(build(:task, importance: 2)).to be_valid }
-    it { expect(build(:task, importance: 3)).to be_valid }
-    it { expect(build(:task, importance: 4)).to_not be_valid }
   end
 
   describe '#urgency' do
     it { expect(subject.urgency).to be_an(Integer) }
-    it { expect(build(:task, urgency: -1)).to_not be_valid }
-    it { expect(build(:task, urgency: 0)).to be_valid }
-    it { expect(build(:task, urgency: 1)).to be_valid }
-    it { expect(build(:task, urgency: 2)).to be_valid }
-    it { expect(build(:task, urgency: 3)).to be_valid }
-    it { expect(build(:task, urgency: 4)).to_not be_valid }
   end
 end
