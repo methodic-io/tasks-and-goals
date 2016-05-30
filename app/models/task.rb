@@ -16,4 +16,8 @@ class Task < ActiveRecord::Base
   validates :urgency,    numericality: { only_integer: true }
   validates :urgency,    inclusion:    { in: 0..3 }
   validates :urgency,    exclusion:    { in: [-1, 4] }
+
+  has_many :listings
+  has_many :lists, through: :listings
+  has_many :subtasks
 end

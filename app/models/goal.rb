@@ -16,4 +16,7 @@ class Goal < ActiveRecord::Base
   validates :urgency,    numericality: { only_integer: true }
   validates :urgency,    inclusion:    { in: 0..3 }
   validates :urgency,    exclusion:    { in: [-1, 4] }
+
+  belongs_to :focus
+  has_many   :lists
 end
