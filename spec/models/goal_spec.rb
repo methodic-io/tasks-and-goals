@@ -30,10 +30,15 @@ RSpec.describe Goal do
 
   it { should validate_numericality_of(:difficulty).only_integer }
   it { should validate_inclusion_of(:difficulty).in_range(0..5) }
+  it { should validate_exclusion_of(:difficulty).in_array([-1, 6]) }
+
   it { should validate_numericality_of(:importance).only_integer }
   it { should validate_inclusion_of(:importance).in_range(0..3) }
+  it { should validate_exclusion_of(:importance).in_array([-1, 4]) }
+
   it { should validate_numericality_of(:urgency).only_integer }
   it { should validate_inclusion_of(:urgency).in_range(0..3) }
+  it { should validate_exclusion_of(:urgency).in_array([-1, 4]) }
 
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
