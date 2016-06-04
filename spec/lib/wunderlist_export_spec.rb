@@ -3,10 +3,8 @@
 
 require 'rails_helper'
 
-EXPORT = File.expand_path('../../fixtures/wunderlist_export.json', __FILE__)
-
 RSpec.describe 'Wunderlist Export' do
-  let(:export) { JSON.parse(File.read(EXPORT)) }
+  let(:export) { JSON.parse(File.read(WUNDERLIST_EXPORT)) }
 
   it 'includes the expected keys' do
     expected_keys = %w(user exported data)
