@@ -71,7 +71,8 @@ RSpec.describe Task do
   end
 
   describe '#repeat_frequency' do
-    it { expect(subject.repeat_frequency).to be_an(String) }
+    it { expect(subject.repeat_frequency).to be_an(Hash) }
+    it { expect(subject.repeat_frequency.keys).to match_array([:count, :unit]) }
   end
 
   describe '#difficulty' do
