@@ -8,7 +8,7 @@ RSpec.describe Subtask do
 
   it { should respond_to(:label) }
   it { should respond_to(:position) }
-  it { should respond_to(:complete) }
+  it { should respond_to(:completed_at) }
 
   it { should validate_presence_of(:label) }
   it { should validate_numericality_of(:position).only_integer }
@@ -28,7 +28,7 @@ RSpec.describe Subtask do
     it { expect(subject.position).to be_an(Integer) }
   end
 
-  describe '#complete' do
-    it { expect(subject.complete).to be_boolean }
+  describe '#completed_at' do
+    it { expect(subject.completed_at).to be_an(ActiveSupport::TimeWithZone) }
   end
 end
