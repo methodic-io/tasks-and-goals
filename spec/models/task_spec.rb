@@ -11,6 +11,7 @@ RSpec.describe Task do
   it { should respond_to(:position) }
   it { should respond_to(:due_at) }
   it { should respond_to(:reminder_at) }
+  it { should respond_to(:deferred_at) }
   it { should respond_to(:completed_at) }
   it { should respond_to(:repeat_frequency) }
   it { should respond_to(:difficulty) }
@@ -58,6 +59,15 @@ RSpec.describe Task do
 
   describe '#reminder_at' do
     it { expect(subject.reminder_at).to be_an(ActiveSupport::TimeWithZone) }
+  end
+
+  describe '#deferred_at' do
+    it { expect(subject.deferred_at).to be_an(Array) }
+
+    it do
+      expect(subject.deferred_at.map(&:class).uniq)
+        .to match_array([ActiveSupport::TimeWithZone])
+    end
   end
 
   describe '#completed_at' do

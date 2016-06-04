@@ -10,6 +10,7 @@ RSpec.describe Goal do
   it { should respond_to(:note) }
   it { should respond_to(:position) }
   it { should respond_to(:due_at) }
+  it { should respond_to(:deferred_at) }
   it { should respond_to(:completed_at) }
   it { should respond_to(:specific) }
   it { should respond_to(:measurable) }
@@ -57,6 +58,15 @@ RSpec.describe Goal do
 
   describe '#due_at' do
     it { expect(subject.due_at).to be_an(ActiveSupport::TimeWithZone) }
+  end
+
+  describe '#deferred_at' do
+    it { expect(subject.deferred_at).to be_an(Array) }
+
+    it do
+      expect(subject.deferred_at.map(&:class).uniq)
+        .to match_array([ActiveSupport::TimeWithZone])
+    end
   end
 
   describe '#completed_at' do
