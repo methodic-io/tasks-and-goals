@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530153417) do
+ActiveRecord::Schema.define(version: 20160604181430) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -30,16 +30,16 @@ ActiveRecord::Schema.define(version: 20160530153417) do
     t.text     "note"
     t.integer  "position"
     t.datetime "due_at"
-    t.boolean  "specific",   default: false
-    t.boolean  "measurable", default: false
-    t.boolean  "attainable", default: false
-    t.boolean  "relevant",   default: false
-    t.boolean  "timely",     default: false
-    t.boolean  "complete",   default: false
-    t.integer  "difficulty", default: 0
-    t.integer  "importance", default: 0
-    t.integer  "urgency",    default: 0
+    t.boolean  "specific",     default: false
+    t.boolean  "measurable",   default: false
+    t.boolean  "attainable",   default: false
+    t.boolean  "relevant",     default: false
+    t.boolean  "timely",       default: false
+    t.integer  "difficulty",   default: 0
+    t.integer  "importance",   default: 0
+    t.integer  "urgency",      default: 0
     t.integer  "focus_id"
+    t.datetime "completed_at"
   end
 
   create_table "groupings", force: :cascade do |t|
@@ -86,8 +86,8 @@ ActiveRecord::Schema.define(version: 20160530153417) do
     t.datetime "deleted_at"
     t.string   "label"
     t.integer  "position"
-    t.boolean  "complete",   default: false
     t.integer  "task_id"
+    t.datetime "completed_at"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -100,10 +100,10 @@ ActiveRecord::Schema.define(version: 20160530153417) do
     t.datetime "due_at"
     t.datetime "reminder_at"
     t.string   "repeat_frequency"
-    t.boolean  "complete",         default: false
     t.integer  "difficulty",       default: 0
     t.integer  "importance",       default: 0
     t.integer  "urgency",          default: 0
+    t.datetime "completed_at"
   end
 
 end
