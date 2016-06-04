@@ -10,8 +10,8 @@ FactoryGirl.define do
     position         Faker::Number.digit
     due_at           Faker::Time.forward(10)
     reminder_at      Faker::Time.forward(10)
+    completed_at     Faker::Time.forward(10)
     repeat_frequency frequencies.sample
-    complete         Faker::Boolean.boolean
     difficulty       Faker::Number.between(0, 5)
     importance       Faker::Number.between(0, 3)
     urgency          Faker::Number.between(0, 3)
