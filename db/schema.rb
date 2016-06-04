@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604181430) do
+ActiveRecord::Schema.define(version: 20160604221520) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160604181430) do
     t.integer  "urgency",      default: 0
     t.integer  "focus_id"
     t.datetime "completed_at"
+    t.text     "deferred_at"
   end
 
   create_table "groupings", force: :cascade do |t|
@@ -104,6 +105,7 @@ ActiveRecord::Schema.define(version: 20160604181430) do
     t.integer  "importance",       default: 0
     t.integer  "urgency",          default: 0
     t.datetime "completed_at"
+    t.text     "deferred_at"
   end
 
 end

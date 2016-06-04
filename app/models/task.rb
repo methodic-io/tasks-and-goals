@@ -20,4 +20,6 @@ class Task < ActiveRecord::Base
   has_many :listings
   has_many :lists, through: :listings
   has_many :subtasks
+
+  serialize :deferred_at, Array
 end
