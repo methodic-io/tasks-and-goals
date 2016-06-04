@@ -63,11 +63,7 @@ RSpec.describe Task do
 
   describe '#deferred_at' do
     it { expect(subject.deferred_at).to be_an(Array) }
-
-    it do
-      expect(subject.deferred_at.map(&:class).uniq)
-        .to match_array([ActiveSupport::TimeWithZone])
-    end
+    it { expect(subject.deferred_at.map(&:class).uniq).to match_array([Time]) }
   end
 
   describe '#completed_at' do
