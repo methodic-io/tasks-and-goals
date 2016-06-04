@@ -10,6 +10,7 @@ FactoryGirl.define do
     position         Faker::Number.digit
     due_at           Faker::Time.forward(10)
     reminder_at      Faker::Time.forward(10)
+    deferred_at      [Faker::Time.forward(10), Faker::Time.forward(10)]
     completed_at     Faker::Time.forward(10)
     repeat_frequency frequencies.sample
     difficulty       Faker::Number.between(0, 5)

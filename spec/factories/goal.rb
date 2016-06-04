@@ -7,6 +7,7 @@ FactoryGirl.define do
     note         Faker::Lorem.paragraph
     position     Faker::Number.digit
     due_at       Faker::Time.forward(10)
+    deferred_at  [Faker::Time.forward(10), Faker::Time.forward(10)]
     completed_at Faker::Time.forward(10)
     specific     Faker::Boolean.boolean
     measurable   Faker::Boolean.boolean
