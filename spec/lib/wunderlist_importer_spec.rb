@@ -73,6 +73,10 @@ RSpec.describe WunderlistImporter do
 
         it { expect(subtask.label).to      eq(subtask_data['title']) }
         it { expect(subtask.task.label).to eq(task_title) }
+        it do
+          expect(subtask.completed_at)
+            .to eq(Time.zone.parse(subtask_data['completed_at']))
+        end
       end
     end
   end
