@@ -4,8 +4,6 @@
 # An individual step, the combination of which make up the activity of a Task.
 class Subtask < ActiveRecord::Base
   validates :label,    presence:     true
-  validates :position, numericality: { greater_than_or_equal_to: 0 }
-  validates :position, numericality: { only_integer: true }
 
   belongs_to :task
 end

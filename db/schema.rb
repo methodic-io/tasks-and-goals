@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604221520) do
+ActiveRecord::Schema.define(version: 20160605120417) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -58,8 +58,9 @@ ActiveRecord::Schema.define(version: 20160604221520) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string   "label"
-    t.boolean  "open",       default: false
+    t.boolean  "open",           default: false
     t.integer  "position"
+    t.text     "list_positions"
   end
 
   create_table "listings", force: :cascade do |t|
@@ -77,8 +78,8 @@ ActiveRecord::Schema.define(version: 20160604221520) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string   "label"
-    t.integer  "position"
     t.integer  "goal_id"
+    t.text     "task_positions"
   end
 
   create_table "subtasks", force: :cascade do |t|
@@ -86,7 +87,6 @@ ActiveRecord::Schema.define(version: 20160604221520) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string   "label"
-    t.integer  "position"
     t.integer  "task_id"
     t.datetime "completed_at"
   end
@@ -97,15 +97,15 @@ ActiveRecord::Schema.define(version: 20160604221520) do
     t.datetime "deleted_at"
     t.string   "label"
     t.text     "note"
-    t.integer  "position"
     t.datetime "due_at"
     t.datetime "reminder_at"
     t.string   "repeat_frequency"
-    t.integer  "difficulty",       default: 0
-    t.integer  "importance",       default: 0
-    t.integer  "urgency",          default: 0
+    t.integer  "difficulty",        default: 0
+    t.integer  "importance",        default: 0
+    t.integer  "urgency",           default: 0
     t.datetime "completed_at"
     t.text     "deferred_at"
+    t.text     "subtask_positions"
   end
 
 end

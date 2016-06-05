@@ -10,4 +10,6 @@ class Group < ActiveRecord::Base
 
   has_many :groupings
   has_many :lists, through: :groupings
+
+  serialize :list_positions, Array
 end

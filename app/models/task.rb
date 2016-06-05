@@ -5,8 +5,6 @@
 # closer to achieving a Goal.
 class Task < ActiveRecord::Base
   validates :label,      presence:     true
-  validates :position,   numericality: { greater_than_or_equal_to: 0 }
-  validates :position,   numericality: { only_integer: true }
   validates :difficulty, numericality: { only_integer: true }
   validates :difficulty, inclusion:    { in: 0..5 }
   validates :difficulty, exclusion:    { in: [-1, 6] }
@@ -21,6 +19,7 @@ class Task < ActiveRecord::Base
   has_many :lists, through: :listings
   has_many :subtasks
 
-  serialize :deferred_at, Array
-  serialize :repeat_frequency, Hash
+  serialize :deferred_at,       Array
+  serialize :repeat_frequency,  Hash
+  serialize :subtask_positions, Array
 end
