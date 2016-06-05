@@ -25,14 +25,24 @@ RSpec.describe WunderlistImporter do
         end
 
         it { expect(task.label).to        eq(task_data['title']) }
-        it { expect(task.created_at).to   eq(task_data['created_at']) }
-        it { expect(task.due_at).to       eq(task_data['due_date']) }
-        it { expect(task.reminder_at).to  eq(reminder_at) }
-        it { expect(task.completed_at).to eq(task_data['completed_at']) }
+        it { expect(task.reminder_at).to  eq(Time.zone.parse(reminder_at)) }
         it { expect(task.note).to         eq(note) }
         it { expect(task.list.label).to   eq(list_title) }
         it { expect(task.subtasks.map(&:label)).to match_array(subtask_titles) }
         it { expect(task.subtask_positions).to match_array(subtask_positions) }
+
+        it do
+          expect(task.created_at)
+            .to eq(Time.zone.parse(task_data['created_at']))
+        end
+        it do
+          expect(task.due_at)
+            .to eq(Time.zone.parse(task_data['due_date']))
+        end
+        it do
+          expect(task.completed_at)
+            .to eq(Time.zone.parse(task_data['completed_at']))
+        end
       end
     end
   end
