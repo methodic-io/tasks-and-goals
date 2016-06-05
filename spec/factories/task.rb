@@ -5,6 +5,7 @@ FactoryGirl.define do
   factory :task do
     units           = %w(never hours days weeks months years)
     frequency_hash  = { count: (1..10).to_a.sample, unit: units.sample }
+    positions       = (1..10).to_a
 
     label             Faker::Lorem.sentence
     note              Faker::Lorem.paragraph
@@ -16,6 +17,6 @@ FactoryGirl.define do
     difficulty        Faker::Number.between(0, 5)
     importance        Faker::Number.between(0, 3)
     urgency           Faker::Number.between(0, 3)
-    subtask_positions (1..10).to_a
+    subtask_positions positions
   end
 end
