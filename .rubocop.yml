@@ -5,6 +5,7 @@ AllCops:
   TargetRubyVersion: 2.3
   Include:
     - '**/config.ru'
+    - 'lib/tasks/**/*.rake'
   Exclude:
     - 'db/schema.rb'
     - 'vendor/bundle/**/*'
