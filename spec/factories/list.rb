@@ -3,7 +3,7 @@
 
 FactoryGirl.define do
   factory :list do
-    label    Faker::Lorem.sentence
-    position Faker::Number.digit
+    label          Faker::Lorem.sentence
+    task_positions (1..10).to_a
   end
 end
