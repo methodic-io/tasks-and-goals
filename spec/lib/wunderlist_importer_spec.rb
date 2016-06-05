@@ -8,7 +8,7 @@ RSpec.describe WunderlistImporter do
   importer = WunderlistImporter.new(WUNDERLIST_EXPORT)
   data     = importer.input['data']
 
-  importer.import
+  importer.import(truncate_existing_data: true)
 
   describe 'tasks' do
     data['tasks'].each do |task_data|
@@ -19,15 +19,18 @@ RSpec.describe WunderlistImporter do
         let(:list_finder)    { ->(l) { l['id'] == task_data['list_id'] } }
         let(:list_title)     { data['lists'].find(&list_finder) }
         let(:subtask_titles) { data['subtasks'].select(&by_task).map(&:title) }
+        let(:subtask_positions) do
+          data['subtask_positions'].select(&by_task)['values']
+        end
 
         it { expect(task.label).to        eq(task_data['title']) }
         it { expect(task.created_at).to   eq(task_data['created_at']) }
         it { expect(task.due_at).to       eq(task_data['due_date']) }
         it { expect(task.completed_at).to eq(task_data['completed_at']) }
-        it { expect(task.position).to     eq(task_data['due_date']) }
         it { expect(task.note).to         eq(note) }
         it { expect(task.list.label).to   eq(list_title) }
         it { expect(task.subtasks.map(&:label)).to match_array(subtask_titles) }
+        it { expect(task.subtask_positions).to match_array(subtask_positions) }
       end
     end
   end
@@ -38,9 +41,13 @@ RSpec.describe WunderlistImporter do
         let(:list)        { List.where(label: list_data['title']).first }
         let(:by_list)     { ->(h) { h['list_id'] == list_data['id'] } }
         let(:task_titles) { data['tasks'].find(&by_list).map(&:title) }
+        let(:task_positions) do
+          data['task_positions'].select(&by_list)['values']
+        end
 
         it { expect(task.label).to eq(task_data['title']) }
         it { expect(list.tasks.map(&:label)).to match_array(task_titles) }
+        it { expect(task.task_positions).to eq(task_positions) }
       end
     end
   end
@@ -53,7 +60,6 @@ RSpec.describe WunderlistImporter do
         let(:task_title)  { data['tasks'].find(&task_finder) }
 
         it { expect(subtask.label).to      eq(subtask_data['title']) }
-        it { expect(subtask.position).to   eq(subtask_data['due_date']) }
         it { expect(subtask.task.label).to eq(task_title) }
       end
     end
