@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class RefactorPositionAttributes < ActiveRecord::Migration
   def change
     remove_column :lists,    :position
