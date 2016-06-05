@@ -37,7 +37,7 @@ RSpec.describe Group do
     it { expect(subject.list_positions).to be_an(Array) }
     it do
       expect(subject.list_positions.map(&:class).uniq)
-        .to match_array([FixNum])
+        .to match_array([Fixnum])
     end
   end
 end

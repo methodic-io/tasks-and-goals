@@ -84,7 +84,7 @@ RSpec.describe Task do
     it { expect(subject.subtask_positions).to be_an(Array) }
     it do
       expect(subject.subtask_positions.map(&:class).uniq)
-        .to match_array([FixNum])
+        .to match_array([Fixnum])
     end
   end
 end
