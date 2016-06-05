@@ -16,6 +16,7 @@ RSpec.describe WunderlistImporter do
         let(:task)           { Task.where(label: task_data['title']).first }
         let(:by_task)        { ->(h) { h['task_id'] == task_data['id'] } }
         let(:note)           { data['notes'].find(&by_task)['content'] }
+        let(:reminder_at)    { data['reminders'].find(&by_task)['date'] }
         let(:list_finder)    { ->(l) { l['id'] == task_data['list_id'] } }
         let(:list_title)     { data['lists'].find(&list_finder) }
         let(:subtask_titles) { data['subtasks'].select(&by_task).map(&:title) }
@@ -26,6 +27,7 @@ RSpec.describe WunderlistImporter do
         it { expect(task.label).to        eq(task_data['title']) }
         it { expect(task.created_at).to   eq(task_data['created_at']) }
         it { expect(task.due_at).to       eq(task_data['due_date']) }
+        it { expect(task.reminder_at).to  eq(reminder_at) }
         it { expect(task.completed_at).to eq(task_data['completed_at']) }
         it { expect(task.note).to         eq(note) }
         it { expect(task.list.label).to   eq(list_title) }
