@@ -8,7 +8,6 @@ RSpec.describe Task do
 
   it { should respond_to(:label) }
   it { should respond_to(:note) }
-  it { should respond_to(:position) }
   it { should respond_to(:due_at) }
   it { should respond_to(:reminder_at) }
   it { should respond_to(:deferred_at) }
@@ -17,14 +16,12 @@ RSpec.describe Task do
   it { should respond_to(:difficulty) }
   it { should respond_to(:importance) }
   it { should respond_to(:urgency) }
+  it { should respond_to(:subtask_positions) }
+
+  # Task postions are now the responsibility of the parent List
+  it { should_not respond_to(:position) }
 
   it { should validate_presence_of(:label) }
-  it { should validate_numericality_of(:position).only_integer }
-
-  it do
-    should validate_numericality_of(:position)
-      .is_greater_than_or_equal_to(0)
-  end
 
   it { should validate_numericality_of(:difficulty).only_integer }
   it { should validate_inclusion_of(:difficulty).in_range(0..5) }
@@ -47,10 +44,6 @@ RSpec.describe Task do
 
   describe '#note' do
     it { expect(subject.note).to be_a(String) }
-  end
-
-  describe '#position' do
-    it { expect(subject.position).to be_an(Integer) }
   end
 
   describe '#due_at' do
@@ -85,5 +78,13 @@ RSpec.describe Task do
 
   describe '#urgency' do
     it { expect(subject.urgency).to be_an(Integer) }
+  end
+
+  describe '#subtask_positions' do
+    it { expect(subject.subtask_positions).to be_an(Array) }
+    it do
+      expect(subject.subtask_positions.map(&:class).uniq)
+        .to match_array([FixNum])
+    end
   end
 end
