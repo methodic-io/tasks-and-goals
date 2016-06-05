@@ -22,4 +22,5 @@ class Task < ActiveRecord::Base
   has_many :subtasks
 
   serialize :deferred_at, Array
+  serialize :repeat_frequency, Hash
 end
