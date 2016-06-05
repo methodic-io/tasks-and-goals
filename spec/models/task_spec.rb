@@ -11,8 +11,9 @@ RSpec.describe Task do
   it { should respond_to(:position) }
   it { should respond_to(:due_at) }
   it { should respond_to(:reminder_at) }
+  it { should respond_to(:deferred_at) }
+  it { should respond_to(:completed_at) }
   it { should respond_to(:repeat_frequency) }
-  it { should respond_to(:complete) }
   it { should respond_to(:difficulty) }
   it { should respond_to(:importance) }
   it { should respond_to(:urgency) }
@@ -60,12 +61,18 @@ RSpec.describe Task do
     it { expect(subject.reminder_at).to be_an(ActiveSupport::TimeWithZone) }
   end
 
-  describe '#repeat_frequency' do
-    it { expect(subject.repeat_frequency).to be_an(String) }
+  describe '#deferred_at' do
+    it { expect(subject.deferred_at).to be_an(Array) }
+    it { expect(subject.deferred_at.map(&:class).uniq).to match_array([Time]) }
   end
 
-  describe '#complete' do
-    it { expect(subject.complete).to be_boolean }
+  describe '#completed_at' do
+    it { expect(subject.completed_at).to be_an(ActiveSupport::TimeWithZone) }
+  end
+
+  describe '#repeat_frequency' do
+    it { expect(subject.repeat_frequency).to be_an(Hash) }
+    it { expect(subject.repeat_frequency.keys).to match_array([:count, :unit]) }
   end
 
   describe '#difficulty' do
