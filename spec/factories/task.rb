@@ -3,15 +3,17 @@
 
 FactoryGirl.define do
   factory :task do
-    frequencies = %w(never daily weekly monthly yearly)
+    units = %w(never hours days weeks months years)
+    frequency_hash  = { count: (1..10).to_a.sample, unit: units.sample }
 
     label            Faker::Lorem.sentence
     note             Faker::Lorem.paragraph
     position         Faker::Number.digit
     due_at           Faker::Time.forward(10)
     reminder_at      Faker::Time.forward(10)
-    repeat_frequency frequencies.sample
-    complete         Faker::Boolean.boolean
+    deferred_at      [Faker::Time.forward(10), Faker::Time.forward(10)]
+    completed_at     Faker::Time.forward(10)
+    repeat_frequency frequency_hash
     difficulty       Faker::Number.between(0, 5)
     importance       Faker::Number.between(0, 3)
     urgency          Faker::Number.between(0, 3)

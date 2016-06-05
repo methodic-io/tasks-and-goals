@@ -19,4 +19,6 @@ class Goal < ActiveRecord::Base
 
   belongs_to :focus
   has_many   :lists
+
+  serialize :deferred_at, Array
 end
