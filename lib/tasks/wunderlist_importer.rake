@@ -26,7 +26,7 @@ namespace :import_from do
       ActiveRecord::Base.establish_connection(config)
     end
 
-    notify'.......'
+    notify '.......'
     importer = WunderlistImporter.new(export_file)
     importer.import(verbose_output: verbose, truncate_existing_data: truncate)
     notify '.......'
