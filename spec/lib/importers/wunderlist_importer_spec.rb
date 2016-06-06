@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'wunderlist_importer'
+require 'importers/wunderlist_importer'
 
 RSpec.describe WunderlistImporter do
   importer = WunderlistImporter.new(WUNDERLIST_EXPORT)
