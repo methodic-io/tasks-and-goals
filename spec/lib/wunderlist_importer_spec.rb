@@ -34,7 +34,7 @@ RSpec.describe WunderlistImporter do
             positions      = subtask_positions['values']
             by_position    = -> (h) { positions.include? h['id'] }
             subtask_labels = data['subtasks'].select(&by_position).map(&title)
-            subtasks       = Subtask.where("label IN (?)", subtask_labels)
+            subtasks       = Subtask.where('label IN (?)', subtask_labels)
             expect(task.subtask_positions).to match_array(subtasks.map(&:id))
           end
         end
@@ -90,7 +90,7 @@ RSpec.describe WunderlistImporter do
             positions   = task_positions['values']
             by_position = -> (h) { positions.include? h['id'] }
             task_labels = data['tasks'].select(&by_position).map(&title)
-            tasks       = Task.where("label IN (?)", task_labels)
+            tasks       = Task.where('label IN (?)', task_labels)
             expect(list.task_positions).to match_array(tasks.map(&:id))
           end
         end
