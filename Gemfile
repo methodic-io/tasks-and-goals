@@ -53,6 +53,8 @@ group :development, :test do
   gem 'faker'
   # Use Shoulda Matchers in order to write more expressive tests.
   gem 'shoulda-matchers'
+  # Use Coveralls for test coverage
+  gem 'coveralls', require: false
   # Use Rubocop for static code analysis.
   gem 'rubocop', require: false
 end
