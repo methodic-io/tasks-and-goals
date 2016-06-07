@@ -4,7 +4,6 @@
 FactoryGirl.define do
   factory :subtask do
     label        Faker::Lorem.sentence
-    position     Faker::Number.digit
     completed_at Faker::Time.forward(10)
   end
 end

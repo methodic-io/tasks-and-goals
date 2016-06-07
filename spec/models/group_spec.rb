@@ -9,6 +9,7 @@ RSpec.describe Group do
   it { should respond_to(:label) }
   it { should respond_to(:open) }
   it { should respond_to(:position) }
+  it { should respond_to(:list_positions) }
 
   it { should validate_presence_of(:label) }
   it { should validate_numericality_of(:position).only_integer }
@@ -30,5 +31,13 @@ RSpec.describe Group do
 
   describe '#position' do
     it { expect(subject.position).to be_an(Integer) }
+  end
+
+  describe '#list_positions' do
+    it { expect(subject.list_positions).to be_an(Array) }
+    it do
+      expect(subject.list_positions.map(&:class).uniq)
+        .to match_array([Fixnum])
+    end
   end
 end

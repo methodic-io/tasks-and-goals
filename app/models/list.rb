@@ -4,13 +4,13 @@
 # A collection of Tasks. The List helps with the conceptual organisation
 # of its Tasks.
 class List < ActiveRecord::Base
-  validates :label,    presence:     true
-  validates :position, numericality: { greater_than_or_equal_to: 0 }
-  validates :position, numericality: { only_integer: true }
+  validates :label, presence: true
 
   belongs_to :goal
   has_many   :groupings
   has_many   :groups, through: :groupings
   has_many   :listings
   has_many   :tasks, through: :listings
+
+  serialize :task_positions, Array
 end

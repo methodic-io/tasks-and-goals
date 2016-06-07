@@ -3,8 +3,11 @@
 
 FactoryGirl.define do
   factory :group do
-    label    Faker::Lorem.sentence
-    open     Faker::Boolean.boolean
-    position Faker::Number.digit
+    positions = (1..10).to_a
+
+    label          Faker::Lorem.sentence
+    open           Faker::Boolean.boolean
+    position       Faker::Number.digit
+    list_positions positions
   end
 end
