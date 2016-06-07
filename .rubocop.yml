@@ -3,3 +3,17 @@ Rails:
 
 AllCops:
   TargetRubyVersion: 2.3
+  Include:
+    - '**/config.ru'
+    - 'lib/tasks/**/*.rake'
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/bundle/**/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/**/*'
+
+Documentation:
+  Exclude:
+    - 'db/**/*'
