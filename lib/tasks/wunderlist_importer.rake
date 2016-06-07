@@ -1,7 +1,7 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
-require_relative '../wunderlist_importer'
+require_relative '../importers/wunderlist_importer'
 
 namespace :import_from do
   Rails.logger = Logger.new(STDOUT)
