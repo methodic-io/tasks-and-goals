@@ -18,3 +18,6 @@
 
 # Ignore Coveralls generated files
 /coverage/*
+
+# Ignore sensitive configuration files
+/config/smtp.yml

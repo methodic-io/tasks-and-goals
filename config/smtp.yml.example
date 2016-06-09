@@ -1,0 +1,5 @@
+address: mailtrap.io
+port: 25
+user_name: mailtrap-user
+password: mailtrap-password
+authentication: plain
