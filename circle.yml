@@ -2,6 +2,10 @@ machine:
   ruby:
     version: 2.3.0
 
+dependencies:
+  pre:
+    - cp config/resque.yml.example config/resque.yml
+    
 test:
   override:
     - bundle exec rake
