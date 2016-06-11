@@ -158,6 +158,11 @@ GEM
       redis (~> 3.3)
       resque (~> 1.26)
       rufus-scheduler (~> 3.2)
+    resque_spec (0.17.0)
+      resque (>= 1.19.0)
+      rspec-core (>= 3.0.0)
+      rspec-expectations (>= 3.0.0)
+      rspec-mocks (>= 3.0.0)
     rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -252,6 +257,7 @@ DEPENDENCIES
   rails (= 4.2.6)
   resque
   resque-scheduler
+  resque_spec
   rspec-rails
   rubocop
   sass-rails (~> 5.0)
