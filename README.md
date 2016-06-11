@@ -13,6 +13,16 @@ The initial implementation of the Methodic Tasks & Goals task and goal managemen
 
 - Redis (for Resque)
 
+## Running an instance
+
+All of the following must be running for the reminder functionality to work:
+
+```sh
+$ bundle exec rails s
+$ bundle exec rake resque:scheduler
+$ QUEUE=reminders bundle exec rake resque:work
+```
+
 ## License
 
 The code that constitutes Methodic's Tasks & Goals is released under the [MIT License](http://www.opensource.org/licenses/MIT) unless stated otherwise.
