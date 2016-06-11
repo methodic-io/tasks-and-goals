@@ -9,6 +9,10 @@
 
 The initial implementation of the Methodic Tasks & Goals task and goal management application. This first iteration of this application will be heavily influenced by Wunderlist, the application that Tasks & Goals is replacing in the Methodic workflow. Ultimately this project, along side similar projects, will act as the precursors for the Methodic Microservice Ecosystem (MME).
 
+## Dependencies
+
+- Redis (for Resque)
+
 ## License
 
 The code that constitutes Methodic's Tasks & Goals is released under the [MIT License](http://www.opensource.org/licenses/MIT) unless stated otherwise.
