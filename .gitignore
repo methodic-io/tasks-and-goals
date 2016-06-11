@@ -22,3 +22,6 @@
 # Ignore sensitive configuration files
 /config/resque.yml
 /config/smtp.yml
+
+# Redis Dump
+/dump.rdb
