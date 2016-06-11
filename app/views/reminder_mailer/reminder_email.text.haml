@@ -1,1 +1,21 @@
-This will be the plain text version of the reminder email.
+Don't forget to '#{@task.label}'.
+
+- goals = @task.lists.map(&:goal)
+- if goals.any?
+  This task will bring you closer to completing the following goals:
+  - goals.each do |goal|
+    - goal_copy = goal.label
+    - goal_copy += ": due on #{goal.due_at}" unless goal.due_at.blank?
+    + goal_copy
+
+- if @task.subtasks.any?
+  This task has been broken down into the following subtasks:
+  - @task.subtasks.each do |subtask|
+    - subtask_copy = subtask.label
+    - subtask_copy += ' (complete)' unless subtask.completed_at.blank?
+    + subtask_copy
+
+- if @task.deferred_at.any?
+  This task has been defferred on the following dates and times:
+  - @task.defferred_at.each do |defferred_at|
+    + defferred_at.to_s
