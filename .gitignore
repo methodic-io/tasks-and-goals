@@ -20,4 +20,5 @@
 /coverage/*
 
 # Ignore sensitive configuration files
+/config/resque.yml
 /config/smtp.yml
