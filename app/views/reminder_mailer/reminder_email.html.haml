@@ -21,8 +21,8 @@
         %li= subtask_copy
 
 - if @task.deferred_at.any?
-  .defferreds
-    This task has been defferred on the following dates and times:
+  .deferreds
+    This task has been deferred on the following dates and times:
     %ul
-      - @task.defferred_at.each do |defferred_at|
-        %li= defferred_at.to_s
+      - @task.deferred_at.each do |deferred_at|
+        %li= deferred_at.to_s

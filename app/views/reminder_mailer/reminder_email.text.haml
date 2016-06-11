@@ -16,6 +16,6 @@ Don't forget to '#{@task.label}'.
     + subtask_copy
 
 - if @task.deferred_at.any?
-  This task has been defferred on the following dates and times:
-  - @task.defferred_at.each do |defferred_at|
-    + defferred_at.to_s
+  This task has been deferred on the following dates and times:
+  - @task.deferred_at.each do |deferred_at|
+    + deferred_at.to_s
