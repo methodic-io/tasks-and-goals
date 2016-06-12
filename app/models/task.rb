@@ -34,8 +34,10 @@ class Task < ActiveRecord::Base
     !completed_at.blank?
   end
 
-  def defer
+  def defer(duration = 1.day)
+    return self unless due? || overdue?
     deferred_at << Time.current
+    self.due_at = duration.from_now
     self
   end
 
