@@ -24,4 +24,34 @@ class Task < ActiveRecord::Base
   serialize :deferred_at,       Array
   serialize :repeat_frequency,  Hash
   serialize :subtask_positions, Array
+
+  def complete
+    self.completed_at = Time.current
+    self
+  end
+
+  def completed?
+    !completed_at.blank?
+  end
+
+  def defer
+    deferred_at << Time.current
+    self
+  end
+
+  def deferred?
+    deferred_at.any?
+  end
+
+  def due?
+    !due_at.blank? && due_at.future?
+  end
+
+  def overdue?
+    !due_at.blank? && due_at.past?
+  end
+
+  def needs_reminding?
+    !reminder_at.blank? && reminder_at.future?
+  end
 end

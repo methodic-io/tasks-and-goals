@@ -23,4 +23,34 @@ class Goal < ActiveRecord::Base
   has_many   :lists
 
   serialize :deferred_at, Array
+
+  def complete
+    self.completed_at = Time.current
+    self
+  end
+
+  def completed?
+    !completed_at.blank?
+  end
+
+  def defer
+    deferred_at << Time.current
+    self
+  end
+
+  def deferred?
+    deferred_at.any?
+  end
+
+  def due?
+    !due_at.blank? && due_at.future?
+  end
+
+  def overdue?
+    !due_at.blank? && due_at.past?
+  end
+
+  def smart?
+    specific? && measurable? && attainable? && relevant? && timely?
+  end
 end
