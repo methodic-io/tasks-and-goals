@@ -7,7 +7,7 @@ RSpec.describe Group do
   let(:subject) { build(:group) }
 
   it { should respond_to(:label) }
-  it { should respond_to(:open) }
+  it { should respond_to(:open?) }
   it { should respond_to(:position) }
   it { should respond_to(:list_positions) }
 
@@ -25,8 +25,8 @@ RSpec.describe Group do
     it { expect(subject.label).to be_a(String) }
   end
 
-  describe '#open' do
-    it { expect(subject.open).to be_boolean }
+  describe '#open?' do
+    it { expect(subject.open?).to be_boolean }
   end
 
   describe '#position' do

@@ -17,5 +17,13 @@ FactoryGirl.define do
     difficulty   Faker::Number.between(0, 5)
     importance   Faker::Number.between(0, 3)
     urgency      Faker::Number.between(0, 3)
+
+    trait :undeferred do
+      deferred_at []
+    end
+
+    trait :incomplete do
+      completed_at nil
+    end
   end
 end
