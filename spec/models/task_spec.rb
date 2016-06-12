@@ -130,6 +130,24 @@ RSpec.describe Task do
       expect { subject.defer }.to change { subject.deferred_at.count }.by(1)
       expect(subject.deferred_at.last.to_s).to eq(Time.current.to_s)
     end
+
+    it 'should defer the due_at property to tomorrow by default' do
+      expect { subject.defer }.to change { subject.due_at.to_s }
+        .to(1.day.from_now.to_s)
+    end
+
+    it 'should defer the due_at property by the given duration' do
+      duration = rand(2..10).days
+      expect { subject.defer(duration) }.to change { subject.due_at.to_s }
+        .to(duration.from_now.to_s)
+    end
+
+    it 'should do nothing if the due_at property is not set' do
+      subject = build(:goal, :not_due)
+      expect { subject.defer }.not_to change { subject.deferred_at }
+      expect { subject.defer }.not_to change { subject.due_at }
+      expect(subject.deferred_at.last.to_s).not_to eq(Time.current.to_s)
+    end
   end
 
   describe '#deferred?' do

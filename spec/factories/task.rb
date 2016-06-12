@@ -23,6 +23,10 @@ FactoryGirl.define do
       deferred_at []
     end
 
+    trait :not_due do
+      due_at nil
+    end
+
     trait :incomplete do
       completed_at nil
     end
