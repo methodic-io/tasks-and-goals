@@ -4,6 +4,8 @@
 # The object of ambition and effort. The completeion of associated tasks move
 # the user closer to the desired achievement.
 class Goal < ActiveRecord::Base
+  include Deletable
+
   validates :label,      presence:     true
   validates :position,   numericality: { greater_than_or_equal_to: 0 }
   validates :position,   numericality: { only_integer: true }

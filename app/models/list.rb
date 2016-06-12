@@ -4,6 +4,8 @@
 # A collection of Tasks. The List helps with the conceptual organisation
 # of its Tasks.
 class List < ActiveRecord::Base
+  include Deletable
+
   validates :label, presence: true
 
   belongs_to :goal

@@ -4,6 +4,8 @@
 # A collection of Lists. The Group helps with the conceptual organisation
 # of its Lists.
 class Group < ActiveRecord::Base
+  include Deletable
+
   validates :label,    presence:     true
   validates :position, numericality: { greater_than_or_equal_to: 0 }
   validates :position, numericality: { only_integer: true }

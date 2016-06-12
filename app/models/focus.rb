@@ -3,6 +3,8 @@
 
 # The core conceptual interest that describes a Goal.
 class Focus < ActiveRecord::Base
+  include Deletable
+
   self.table_name = 'foci'
 
   validates :label,    presence:     true

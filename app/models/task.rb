@@ -4,6 +4,8 @@
 # An individual piece of work the completion of which moves the user a step
 # closer to achieving a Goal.
 class Task < ActiveRecord::Base
+  include Deletable
+
   validates :label,      presence:     true
   validates :difficulty, numericality: { only_integer: true }
   validates :difficulty, inclusion:    { in: 0..5 }
