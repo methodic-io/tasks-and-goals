@@ -5,7 +5,7 @@
 # ensuring that only tasks that need reminders receive them.
 class Reminder
   def self.setup(task)
-    unless task.reminder_at.blank? || task.reminder_at.past?
+    if task.needs_reminding?
       return Resque.enqueue_at(task.reminder_at, ReminderJob, task.id)
     end
     :this_task_does_not_need_a_reminder

@@ -8,7 +8,7 @@
     %ul
       - goals.each do |goal|
         - goal_copy = goal.label
-        - goal_copy += ": due on #{goal.due_at}" unless goal.due_at.blank?
+        - goal_copy += ": due on #{goal.due_at}" if goal.due?
         %li= goal_copy
 
 - if @task.subtasks.any?
@@ -17,10 +17,10 @@
     %ul
       - @task.subtasks.each do |subtask|
         - subtask_copy = subtask.label
-        - subtask_copy += ' (complete)' unless subtask.completed_at.blank?
+        - subtask_copy += ' (complete)' if subtask.completed?
         %li= subtask_copy
 
-- if @task.deferred_at.any?
+- if @task.deferred?
   .deferreds
     This task has been deferred on the following dates and times:
     %ul
