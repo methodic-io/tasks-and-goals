@@ -5,10 +5,9 @@
 # of its Lists.
 class Group < ActiveRecord::Base
   include Deletable
+  include Positionable
 
-  validates :label,    presence:     true
-  validates :position, numericality: { greater_than_or_equal_to: 0 }
-  validates :position, numericality: { only_integer: true }
+  validates :label, presence: true
 
   has_many :groupings
   has_many :lists, through: :groupings

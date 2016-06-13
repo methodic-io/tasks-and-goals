@@ -7,10 +7,9 @@ class Goal < ActiveRecord::Base
   include Deletable
   include Deferrable
   include Completable
+  include Positionable
 
   validates :label,      presence:     true
-  validates :position,   numericality: { greater_than_or_equal_to: 0 }
-  validates :position,   numericality: { only_integer: true }
   validates :difficulty, numericality: { only_integer: true }
   validates :difficulty, inclusion:    { in: 0..5 }
   validates :difficulty, exclusion:    { in: [-1, 6] }
