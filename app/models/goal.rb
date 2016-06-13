@@ -9,19 +9,12 @@ class Goal < ActiveRecord::Base
   include Completable
   include Positionable
   include Classifiable
+  include Schedulable
 
   validates :label, presence: true
 
   belongs_to :focus
   has_many   :lists
-
-  def due?
-    !due_at.blank? && due_at.future?
-  end
-
-  def overdue?
-    !due_at.blank? && due_at.past?
-  end
 
   def smart?
     specific? && measurable? && attainable? && relevant? && timely?

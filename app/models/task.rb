@@ -8,6 +8,7 @@ class Task < ActiveRecord::Base
   include Deferrable
   include Completable
   include Classifiable
+  include Schedulable
 
   validates :label, presence: true
 
@@ -17,14 +18,6 @@ class Task < ActiveRecord::Base
 
   serialize :repeat_frequency,  Hash
   serialize :subtask_positions, Array
-
-  def due?
-    !due_at.blank? && due_at.future?
-  end
-
-  def overdue?
-    !due_at.blank? && due_at.past?
-  end
 
   def needs_reminding?
     !reminder_at.blank? && reminder_at.future?
