@@ -8,17 +8,9 @@ class Goal < ActiveRecord::Base
   include Deferrable
   include Completable
   include Positionable
+  include Classifiable
 
-  validates :label,      presence:     true
-  validates :difficulty, numericality: { only_integer: true }
-  validates :difficulty, inclusion:    { in: 0..5 }
-  validates :difficulty, exclusion:    { in: [-1, 6] }
-  validates :importance, numericality: { only_integer: true }
-  validates :importance, inclusion:    { in: 0..3 }
-  validates :importance, exclusion:    { in: [-1, 4] }
-  validates :urgency,    numericality: { only_integer: true }
-  validates :urgency,    inclusion:    { in: 0..3 }
-  validates :urgency,    exclusion:    { in: [-1, 4] }
+  validates :label, presence: true
 
   belongs_to :focus
   has_many   :lists
