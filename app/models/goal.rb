@@ -6,6 +6,7 @@
 class Goal < ActiveRecord::Base
   include Deletable
   include Deferrable
+  include Completable
 
   validates :label,      presence:     true
   validates :position,   numericality: { greater_than_or_equal_to: 0 }
@@ -22,15 +23,6 @@ class Goal < ActiveRecord::Base
 
   belongs_to :focus
   has_many   :lists
-
-  def complete
-    self.completed_at = Time.current
-    self
-  end
-
-  def completed?
-    !completed_at.blank?
-  end
 
   def due?
     !due_at.blank? && due_at.future?

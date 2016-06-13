@@ -6,6 +6,7 @@
 class Task < ActiveRecord::Base
   include Deletable
   include Deferrable
+  include Completable
 
   validates :label,      presence:     true
   validates :difficulty, numericality: { only_integer: true }
@@ -24,15 +25,6 @@ class Task < ActiveRecord::Base
 
   serialize :repeat_frequency,  Hash
   serialize :subtask_positions, Array
-
-  def complete
-    self.completed_at = Time.current
-    self
-  end
-
-  def completed?
-    !completed_at.blank?
-  end
 
   def due?
     !due_at.blank? && due_at.future?
