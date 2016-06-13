@@ -5,6 +5,7 @@
 # the user closer to the desired achievement.
 class Goal < ActiveRecord::Base
   include Deletable
+  include Deferrable
 
   validates :label,      presence:     true
   validates :position,   numericality: { greater_than_or_equal_to: 0 }
@@ -22,8 +23,6 @@ class Goal < ActiveRecord::Base
   belongs_to :focus
   has_many   :lists
 
-  serialize :deferred_at, Array
-
   def complete
     self.completed_at = Time.current
     self
@@ -31,17 +30,6 @@ class Goal < ActiveRecord::Base
 
   def completed?
     !completed_at.blank?
-  end
-
-  def defer(duration = 1.day)
-    return self unless due? || overdue?
-    deferred_at << Time.current
-    self.due_at = duration.from_now
-    self
-  end
-
-  def deferred?
-    deferred_at.any?
   end
 
   def due?

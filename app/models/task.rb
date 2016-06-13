@@ -5,6 +5,7 @@
 # closer to achieving a Goal.
 class Task < ActiveRecord::Base
   include Deletable
+  include Deferrable
 
   validates :label,      presence:     true
   validates :difficulty, numericality: { only_integer: true }
@@ -21,7 +22,6 @@ class Task < ActiveRecord::Base
   has_many :lists, through: :listings
   has_many :subtasks
 
-  serialize :deferred_at,       Array
   serialize :repeat_frequency,  Hash
   serialize :subtask_positions, Array
 
@@ -32,17 +32,6 @@ class Task < ActiveRecord::Base
 
   def completed?
     !completed_at.blank?
-  end
-
-  def defer(duration = 1.day)
-    return self unless due? || overdue?
-    deferred_at << Time.current
-    self.due_at = duration.from_now
-    self
-  end
-
-  def deferred?
-    deferred_at.any?
   end
 
   def due?
