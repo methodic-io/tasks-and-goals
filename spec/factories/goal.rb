@@ -3,8 +3,8 @@
 
 FactoryGirl.define do
   factory :goal do
-    label        Faker::Lorem.sentence
-    note         Faker::Lorem.paragraph
+    label        { generate(:label) }
+    note         { generate(:note) }
     position     Faker::Number.digit
     due_at       Faker::Time.forward(10)
     deferred_at  [Faker::Time.forward(10), Faker::Time.forward(10)]

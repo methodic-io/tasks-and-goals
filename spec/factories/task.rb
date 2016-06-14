@@ -7,17 +7,17 @@ FactoryGirl.define do
     frequency_hash  = { count: (1..10).to_a.sample, unit: units.sample }
     positions       = (1..10).to_a
 
-    label             Faker::Lorem.sentence
-    note              Faker::Lorem.paragraph
-    due_at            Faker::Time.forward(10)
-    reminder_at       Faker::Time.forward(10)
-    deferred_at       [Faker::Time.forward(10), Faker::Time.forward(10)]
-    completed_at      Faker::Time.forward(10)
-    repeat_frequency  frequency_hash
-    difficulty        Faker::Number.between(0, 5)
-    importance        Faker::Number.between(0, 3)
-    urgency           Faker::Number.between(0, 3)
-    subtask_positions positions
+    label             { generate(:label) }
+    note              { generate(:note) }
+    due_at            { Faker::Time.forward(10) }
+    reminder_at       { Faker::Time.forward(10) }
+    deferred_at       { [Faker::Time.forward(10), Faker::Time.forward(10)] }
+    completed_at      { Faker::Time.forward(10) }
+    repeat_frequency  { frequency_hash }
+    difficulty        { Faker::Number.between(0, 5) }
+    importance        { Faker::Number.between(0, 3) }
+    urgency           { Faker::Number.between(0, 3) }
+    subtask_positions { positions }
 
     trait :undeferred do
       deferred_at []

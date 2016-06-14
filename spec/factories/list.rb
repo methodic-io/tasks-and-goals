@@ -5,7 +5,11 @@ FactoryGirl.define do
   factory :list do
     positions = (1..10).to_a
 
-    label          Faker::Lorem.sentence
-    task_positions positions
+    label          { generate(:label) }
+    task_positions { positions }
+
+    trait :without_tasks do
+      task_positions []
+    end
   end
 end
