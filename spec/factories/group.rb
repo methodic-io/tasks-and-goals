@@ -8,6 +8,6 @@ FactoryGirl.define do
     label          { generate(:label) }
     open           { Faker::Boolean.boolean }
     position       { Faker::Number.digit }
-    list_positions positions
+    list_positions { positions }
   end
 end
