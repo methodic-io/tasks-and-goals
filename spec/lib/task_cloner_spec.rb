@@ -18,8 +18,6 @@ RSpec.describe TaskCloner do
       it 'creates a new task with the same attributes where appropriate' do
         new_task = subject.clone(task)
 
-        byebug
-
         # Attributes that should match.
         expect(new_task.label).to            eq(task.label)
         expect(new_task.note).to             eq(task.note)
