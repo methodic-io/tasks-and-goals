@@ -3,13 +3,11 @@
 
 FactoryGirl.define do
   factory :list do
-    positions = (1..10).to_a
-
-    label          { generate(:label) }
-    task_positions { positions }
+    label { generate(:label) }
+    tasks { Array.new(5) { create(:task) }.shuffle! }
 
     trait :without_tasks do
-      task_positions []
+      tasks []
     end
   end
 end

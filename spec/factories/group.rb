@@ -3,11 +3,9 @@
 
 FactoryGirl.define do
   factory :group do
-    positions = (1..10).to_a
-
-    label          { generate(:label) }
-    open           { Faker::Boolean.boolean }
-    position       { Faker::Number.digit }
-    list_positions { positions }
+    label     { generate(:label) }
+    open      { Faker::Boolean.boolean }
+    position  { Faker::Number.digit }
+    lists     { Array.new(5) { create(:list) }.shuffle! }
   end
 end
