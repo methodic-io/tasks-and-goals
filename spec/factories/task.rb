@@ -16,7 +16,6 @@ FactoryGirl.define do
     difficulty       { Faker::Number.between(0, 5) }
     importance       { Faker::Number.between(0, 3) }
     urgency          { Faker::Number.between(0, 3) }
-    subtasks         { Array.new(5) { create(:subtask) }.shuffle! }
 
     trait :undeferred do
       deferred_at []
@@ -28,6 +27,10 @@ FactoryGirl.define do
 
     trait :incomplete do
       completed_at nil
+    end
+
+    trait :with_subtasks do
+      subtasks { Array.new(5) { create(:subtask) }.shuffle! }
     end
   end
 end

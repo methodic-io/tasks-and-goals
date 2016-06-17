@@ -6,6 +6,9 @@ FactoryGirl.define do
     label     { generate(:label) }
     open      { Faker::Boolean.boolean }
     position  { Faker::Number.digit }
-    lists     { Array.new(5) { create(:list) }.shuffle! }
+
+    trait :with_lists do
+      lists { Array.new(5) { create(:list) }.shuffle! }
+    end
   end
 end

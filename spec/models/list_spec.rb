@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe List do
-  let(:subject) { build(:list) }
+  let(:subject) { build(:list, :with_tasks) }
 
   it { should respond_to(:label) }
   it { should respond_to(:task_positions) }

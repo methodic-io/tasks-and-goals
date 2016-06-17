@@ -4,10 +4,9 @@
 FactoryGirl.define do
   factory :list do
     label { generate(:label) }
-    tasks { Array.new(5) { create(:task) }.shuffle! }
 
-    trait :without_tasks do
-      tasks []
+    trait :with_tasks do
+      tasks { Array.new(5) { create(:task) }.shuffle! }
     end
   end
 end

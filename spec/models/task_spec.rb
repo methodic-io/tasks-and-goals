@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe Task do
-  let(:subject) { build(:task) }
+  let(:subject) { build(:task, :with_subtasks) }
 
   it { should respond_to(:label) }
   it { should respond_to(:note) }

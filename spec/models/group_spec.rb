@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe Group do
-  let(:subject) { build(:group) }
+  let(:subject) { build(:group, :with_lists) }
 
   it { should respond_to(:label) }
   it { should respond_to(:open?) }
