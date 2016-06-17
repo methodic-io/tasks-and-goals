@@ -40,17 +40,22 @@ class TaskBuilder < Builder
         created_at: Time.zone.parse(subtask_data['created_at'])
       }
       subtask = Subtask.where(subtask_query).first
-      subtask.task = @task
-      subtask.save!
+      @task.subtasks << subtask
     end
   end
 
   def populate_positions(subtask_positions)
-    subtask_positions.each do |source_id|
+    subtask_positions.each_with_index do |source_id, i|
       subtask_data = @all_data['subtasks'].find { |s| s['id'] == source_id }
       next unless subtask_data
-      subtask = @task.subtasks.where(label: subtask_data['title']).first
-      @task.subtask_positions << subtask.id if subtask
+      subtask = @task.subtasks.find(&subtask_selector(subtask_data))
+      @task.position_subtask(subtask, i) if subtask
+    end
+  end
+
+  def subtask_selector(subtask_data)
+    lambda do |t|
+      t.label == subtask_data['title']
     end
   end
 end

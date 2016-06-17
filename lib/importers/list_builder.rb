@@ -34,11 +34,11 @@ class ListBuilder < Builder
   end
 
   def populate_positions(task_positions)
-    task_positions.each do |source_id|
+    task_positions.each_with_index do |source_id, i|
       task_data = @all_data['tasks'].find { |t| t['id'] == source_id }
       next unless task_data
       task = @list.tasks.find(&task_selector(task_data))
-      @list.task_positions << task.id if task
+      @list.position_task(task, i) if task
     end
   end
 
