@@ -211,4 +211,185 @@ RSpec.describe Task do
         .to match_array([Fixnum])
     end
   end
+
+  describe '#subtasks=' do
+    context 'when set to an empty array' do
+      it 'sets subtask_positions to an empty array' do
+        expect(subject.subtask_positions).not_to be_empty
+        subject.subtasks = []
+        expect(subject.subtask_positions).to be_empty
+      end
+    end
+
+    context 'when set to an array of subtasks' do
+      it 'sets subtask_positions appropriately' do
+        new_subtasks     = Array.new(5) { create(:subtask) }.shuffle!
+        new_subtask_ids  = new_subtasks.map(&:id)
+        subject.subtasks = new_subtasks
+        expect(subject.subtask_positions).to eq(new_subtask_ids)
+      end
+    end
+
+    context 'when set with anything other than an empty array or ' \
+      'an array of subtasks' do
+      it 'raises an error' do
+        expect { subject.subtasks = [] }.not_to raise_error
+        expect { subject.subtasks = [create(:subtask), create(:subtask)] }
+          .not_to raise_error
+        expect { subject.subtasks = [create(:subtask), create(:task)] }
+          .to raise_error(ActiveRecord::AssociationTypeMismatch)
+      end
+    end
+  end
+
+  describe '#subtasks <<' do
+    context 'when a subtask is assigned' do
+      it "adds the subtask's id to the top of subtask_positions" do
+        subtask = create(:subtask)
+        subject.subtasks << subtask
+        expect(subject.subtask_positions.first).to eq(subtask.id)
+      end
+    end
+
+    context 'when an array of subtasks are assigned' do
+      it "adds the subtasks' ids to the top of subtask_positions" do
+        subtask_a = create(:subtask)
+        subtask_b = create(:subtask)
+        subject.subtasks << [subtask_a, subtask_b]
+        expect(subject.subtask_positions.first(2))
+          .to eq([subtask_a.id, subtask_b.id])
+      end
+    end
+
+    context 'when anything other than a subtask is assigned' do
+      it 'raises an error' do
+        expect { subject.subtasks << build(:goal) }
+          .to raise_error(ActiveRecord::AssociationTypeMismatch)
+      end
+    end
+  end
+
+  describe '#subtasks.delete' do
+    context 'when a subtask is removed' do
+      it "removes the subtask's id from subtask_positions" do
+        subtask = create(:subtask)
+        subject.subtasks << subtask
+        expect(subject.subtask_positions).to include(subtask.id)
+        subject.subtasks.delete(subtask)
+        expect(subject.subtask_positions).not_to include(subtask.id)
+      end
+    end
+  end
+
+  describe '#position_subtask' do
+    let(:subtask)        { subject.subtasks.third }
+    let(:num_subtasks)   { subject.subtask_positions.count }
+
+    context 'when given an associated subtask and an in bounds position' do
+      context 'when increasing the subtask position' do
+        it 'correctly sets subtask_positions' do
+          orig_positions = subject.subtask_positions.dup
+          subject.position_subtask(subtask, 0)
+          expect(subject.subtask_positions[0]).to eq(subtask.id)
+          expect(subject.subtask_positions[1]).to eq(orig_positions[0])
+          expect(subject.subtask_positions[2]).to eq(orig_positions[1])
+          (num_subtasks - 3).times do |i|
+            id = i + 3
+            expect(subject.subtask_positions[id]).to eq(orig_positions[id])
+          end
+        end
+      end
+
+      context 'when decreasing the subtask position' do
+        it 'correctly sets subtask_positions' do
+          orig_positions = subject.subtask_positions.dup
+          subject.position_subtask(subtask, -1)
+          expect(subject.subtask_positions[0]).to eq(orig_positions[0])
+          expect(subject.subtask_positions[1]).to eq(orig_positions[1])
+          (num_subtasks - 3).times do |i|
+            id = i + 2
+            expect(subject.subtask_positions[id]).to eq(orig_positions[id + 1])
+          end
+          expect(subject.subtask_positions.last).to eq(subtask.id)
+        end
+      end
+    end
+
+    context 'when given an out of bounds position' do
+      it 'raises an error' do
+        too_high_pos = num_subtasks
+        too_low_pos  = -num_subtasks - 1
+        expect { subject.position_subtask(subtask, too_high_pos) }
+          .to raise_error(ArgumentError)
+        expect { subject.position_subtask(subtask, too_low_pos) }
+          .to raise_error(ArgumentError)
+      end
+    end
+
+    context 'when given an unassociated subtask' do
+      it 'raises an error' do
+        expect { subject.position_subtask(create(:subtask), 0) }
+          .to raise_error(ArgumentError)
+      end
+    end
+
+    context 'when given anything other than a subtask' do
+      it 'raises an error' do
+        expect { subject.position_subtask(build(:goal), 0) }
+          .to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe '#exchange_positions' do
+    context 'when given 2 tasks' do
+      context 'and neither task belongs to the list' do
+        it 'should raise an error' do
+          subtask_a = create(:subtask)
+          subtask_b = create(:subtask)
+          expect { subject.exchange_positions(subtask_a, subtask_b) }
+            .to raise_error(ArgumentError)
+        end
+      end
+
+      context 'and one of the two tasks belongs to the list' do
+        it 'should raise an error' do
+          subtask_a = create(:subtask)
+          subtask_b = create(:subtask)
+          subject.subtasks << subtask_a
+          expect { subject.exchange_positions(subtask_a, subtask_b) }
+            .to raise_error(ArgumentError)
+        end
+      end
+
+      context 'and both tasks belongs to the list' do
+        it "should swap the subtasks' ids in subtask_positions" do
+          subtask_a = create(:subtask)
+          subtask_b = create(:subtask)
+          subject.subtasks << [subtask_a, subtask_b]
+
+          expect(subject.subtask_positions.first(2))
+            .to eq([subtask_a.id, subtask_b.id])
+          subject.exchange_positions(subtask_a, subtask_b)
+          expect(subject.subtask_positions.first(2))
+            .to eq([subtask_b.id, subtask_a.id])
+        end
+      end
+    end
+
+    context 'when given anything other than two tasks' do
+      it 'should raise an error' do
+        expect { subject.exchange_positions(build(:task), build(:goal)) }
+          .to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe '#ordered_subtasks' do
+    it 'should return the subtasks ordered by subtask_positions' do
+      subject.subtask_positions.shuffle!
+      expect(subject.ordered_subtasks.map(&:id))
+        .to eq(subject.subtask_positions)
+    end
+  end
 end
