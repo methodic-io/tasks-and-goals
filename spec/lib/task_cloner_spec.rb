@@ -4,8 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe TaskCloner do
-  let(:subject)  { described_class }
-  let(:task)     { create(:task) }
+  let(:subject) { described_class }
 
   describe '.clone' do
     context 'when given anything other than a task' do
@@ -16,6 +15,7 @@ RSpec.describe TaskCloner do
 
     context 'when given a task' do
       it 'creates a new task with the same attributes where appropriate' do
+        task     = create(:task)
         new_task = subject.clone(task)
 
         # Attributes that should match.
@@ -39,46 +39,55 @@ RSpec.describe TaskCloner do
       context 'associated with one or more lists' do
         it 'creates a new task associated with the same single list with ' \
            'matching position' do
-          list       = create(:list, :without_tasks)
-          list.tasks = [create(:task), create(:task), create(:task)]
-          task.lists = [create(:list)]
+          task       = create(:task)
+          list       = create(:list, :with_tasks)
+          list.tasks << task
           list.task_positions.shuffle!
+          list.save!
 
           position = list.task_positions.index(task.id)
           new_task = subject.clone(task)
+          list.reload
 
           expect(new_task.lists).to match_array(task.lists)
-          expect(list.task_positions.index(new_task.id)).to eq(position)
+          # The expected position has to be incremented to account for
+          # the cloned task.
+          expect(list.task_positions.index(new_task.id)).to eq(position + 1)
         end
 
         it 'creates a new task associated with the same set of lists with ' \
            'matching positions' do
+          task       = create(:task)
           positions  = []
           lists      = []
           task.lists = []
           num_lists  = 3
 
           num_lists.times do
-            list       = create(:list, :without_tasks)
-            list.tasks = [create(:task), create(:task), create(:task)]
+            list = create(:list, :with_tasks)
             lists      << list
-            task.lists << list
+            list.tasks << task
             list.task_positions.shuffle!
             positions << list.task_positions.index(task.id)
+            list.save!
           end
 
-          new_task = subject.clone(task)
+          new_task = subject.clone(task.reload)
 
           expect(new_task.lists).to match_array(task.lists)
           num_lists.times do |i|
-            expect(lists[i].task_positions.index(new_task.id))
-              .to eq(positions[i])
+            # The expected position has to be incremented to account for
+            # the cloned task.
+            list = lists[i].reload
+            expect(list.task_positions.index(new_task.id))
+              .to eq(positions[i] + 1)
           end
         end
       end
 
       context 'not associated with any lists' do
         it 'creates a new task that is not associated with any lists' do
+          task       = create(:task)
           task.lists = []
           new_task   = subject.clone(task)
           expect(new_task.lists).to be_empty
@@ -87,29 +96,35 @@ RSpec.describe TaskCloner do
 
       context 'with subtasks' do
         it 'creates a new task with cloned subtasks with matching positions' do
-          task.subtasks = []
+          task          = create(:task)
           num_subtasks  = 5
+
+          expect(task.subtasks).to be_empty
 
           num_subtasks.times do
             task.subtasks << create(:subtask)
           end
 
           task.subtask_positions.shuffle!
-          ordered_subtask_labels = task.subtasks.map(&:label)
+          task.save!
+
+          ordered_subtask_labels = task.ordered_subtasks.map(&:label)
           subtask_ids            = task.subtasks.map(&:id)
 
-          new_task = subject.clone(task)
+          new_task = subject.clone(task.reload)
 
-          expect(new_task.subtasks.map(&:label)).to  eq(ordered_subtask_labels)
+          expect(new_task.ordered_subtasks.map(&:label))
+            .to eq(ordered_subtask_labels)
           expect(new_task.subtasks.map(&:id)).not_to include(*subtask_ids)
-          expect(new_task.subtasks.map(&:completed?)).to eq([false])
+          expect(new_task.subtasks.map(&:completed?).uniq).to eq([false])
         end
       end
 
       context 'without subtasks' do
         it 'creates a new task without any subtasks' do
-          task.subtasks = []
-          new_task      = subject.clone(task)
+          task = create(:task)
+          expect(task.subtasks).to be_empty
+          new_task = subject.clone(task)
           expect(new_task.subtasks).to be_empty
         end
       end
