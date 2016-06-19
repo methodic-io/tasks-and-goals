@@ -28,8 +28,28 @@ class Task < ActiveRecord::Base
     end
   end
 
-  serialize :repeat_frequency,  Hash
   serialize :subtask_positions, Array
+
+  def complete
+    super
+    if repeat_frequency.to_i > 0
+      clone             = TaskCloner.clone(self)
+      clone.due_at      = Time.current + repeat_frequency
+      clone.reminder_at = reminder_at + repeat_frequency if reminder_at
+      clone.save!
+    end
+    clear_reminder
+    self
+  end
+
+  def repeat_frequency
+    duration = super || 0
+    duration.seconds
+  end
+
+  def repeat_frequency=(duration)
+    super(duration.to_i)
+  end
 
   def needs_reminding?
     !reminder_at.blank? && reminder_at.future?
