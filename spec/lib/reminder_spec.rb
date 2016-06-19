@@ -51,4 +51,24 @@ RSpec.describe Reminder do
       it_behaves_like 'an unnecessary reminder'
     end
   end
+
+  describe '.clear' do
+    context 'when the task has a pending reminder' do
+      it 'removes the reminder' do
+        task = create(:task, reminder_at: 1.day.from_now)
+        expect(ReminderJob)
+          .to have_scheduled(task_id: task.id).at(task.reminder_at)
+        Reminder.clear(task)
+        expect(ReminderJob).not_to have_scheduled(task_id: task.id)
+      end
+    end
+
+    context 'when the task does not need reminding' do
+      it 'returns a helpful value' do
+        task = create(:task, reminder_at: 1.day.ago)
+        expect(Reminder.clear(task))
+          .to eq(:this_task_does_not_have_a_reminder_to_clear)
+      end
+    end
+  end
 end
