@@ -6,8 +6,8 @@
 class ReminderJob
   @queue = :reminders
 
-  def self.perform(task_id)
+  def self.perform(task_id:)
     task = Task.find(task_id)
-    ReminderMailer.reminder_email(task).deliver_now
+    ReminderMailer.reminder_email(task).deliver_now unless task.blank?
   end
 end

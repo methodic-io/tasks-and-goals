@@ -3,13 +3,13 @@
 
 require 'rails_helper'
 
-RSpec.describe ReminderJob do
+RSpec.describe ReminderJob, type: :job do
   let(:subject) { described_class }
   let(:task)    { create(:task) }
 
   describe '.perform' do
     it 'sends an email' do
-      expect { subject.perform(task.id) }
+      expect { subject.perform(task_id: task.id) }
         .to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
