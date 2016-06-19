@@ -173,7 +173,7 @@ RSpec.describe Group do
   describe '#exchange_positions' do
     context 'when given 2 groups' do
       context 'and neither group belongs to the list' do
-        it 'should raise an error' do
+        it 'raises an error' do
           list_a = create(:list)
           list_b = create(:list)
           expect { subject.exchange_positions(list_a, list_b) }
@@ -182,7 +182,7 @@ RSpec.describe Group do
       end
 
       context 'and one of the two groups belongs to the list' do
-        it 'should raise an error' do
+        it 'raises an error' do
           list_a = create(:list)
           list_b = create(:list)
           subject.lists << list_a
@@ -192,7 +192,7 @@ RSpec.describe Group do
       end
 
       context 'and both groups belongs to the list' do
-        it "should swap the lists' ids in list_positions" do
+        it "swaps the lists' ids in list_positions" do
           list_a = create(:list)
           list_b = create(:list)
           subject.lists << [list_a, list_b]
@@ -207,7 +207,7 @@ RSpec.describe Group do
     end
 
     context 'when given anything other than two groups' do
-      it 'should raise an error' do
+      it 'raises an error' do
         expect { subject.exchange_positions(build(:group), build(:goal)) }
           .to raise_error(TypeError)
       end
@@ -215,7 +215,7 @@ RSpec.describe Group do
   end
 
   describe '#ordered_lists' do
-    it 'should return the lists ordered by list_positions' do
+    it 'returns the lists ordered by list_positions' do
       subject.list_positions.shuffle!
       expect(subject.ordered_lists.map(&:id))
         .to eq(subject.list_positions)

@@ -131,18 +131,18 @@ RSpec.describe Task do
       expect(subject.deferred_at.last.to_s).to eq(Time.current.to_s)
     end
 
-    it 'should defer the due_at property to tomorrow by default' do
+    it 'defers the due_at property to tomorrow by default' do
       expect { subject.defer }.to change { subject.due_at.to_s }
         .to(1.day.from_now.to_s)
     end
 
-    it 'should defer the due_at property by the given duration' do
+    it 'defers the due_at property by the given duration' do
       duration = rand(2..10).days
       expect { subject.defer(duration) }.to change { subject.due_at.to_s }
         .to(duration.from_now.to_s)
     end
 
-    it 'should do nothing if the due_at property is not set' do
+    it 'does nothing if the due_at property is not set' do
       subject = build(:goal, :not_due)
       expect { subject.defer }.not_to change { subject.deferred_at }
       expect { subject.defer }.not_to change { subject.due_at }
@@ -344,7 +344,7 @@ RSpec.describe Task do
   describe '#exchange_positions' do
     context 'when given 2 tasks' do
       context 'and neither task belongs to the list' do
-        it 'should raise an error' do
+        it 'raises an error' do
           subtask_a = create(:subtask)
           subtask_b = create(:subtask)
           expect { subject.exchange_positions(subtask_a, subtask_b) }
@@ -353,7 +353,7 @@ RSpec.describe Task do
       end
 
       context 'and one of the two tasks belongs to the list' do
-        it 'should raise an error' do
+        it 'raises an error' do
           subtask_a = create(:subtask)
           subtask_b = create(:subtask)
           subject.subtasks << subtask_a
@@ -363,7 +363,7 @@ RSpec.describe Task do
       end
 
       context 'and both tasks belongs to the list' do
-        it "should swap the subtasks' ids in subtask_positions" do
+        it "swaps the subtasks' ids in subtask_positions" do
           subtask_a = create(:subtask)
           subtask_b = create(:subtask)
           subject.subtasks << [subtask_a, subtask_b]
@@ -378,7 +378,7 @@ RSpec.describe Task do
     end
 
     context 'when given anything other than two tasks' do
-      it 'should raise an error' do
+      it 'raises an error' do
         expect { subject.exchange_positions(build(:task), build(:goal)) }
           .to raise_error(TypeError)
       end
@@ -386,7 +386,7 @@ RSpec.describe Task do
   end
 
   describe '#ordered_subtasks' do
-    it 'should return the subtasks ordered by subtask_positions' do
+    it 'returns the subtasks ordered by subtask_positions' do
       subject.subtask_positions.shuffle!
       expect(subject.ordered_subtasks.map(&:id))
         .to eq(subject.subtask_positions)

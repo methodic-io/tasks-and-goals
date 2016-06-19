@@ -162,7 +162,7 @@ RSpec.describe List do
   describe '#exchange_positions' do
     context 'when given 2 lists' do
       context 'and neither list belongs to the task' do
-        it 'should raise an error' do
+        it 'raises an error' do
           task_a = create(:task)
           task_b = create(:task)
           expect { subject.exchange_positions(task_a, task_b) }
@@ -171,7 +171,7 @@ RSpec.describe List do
       end
 
       context 'and one of the two lists belongs to the task' do
-        it 'should raise an error' do
+        it 'raises an error' do
           task_a = create(:task)
           task_b = create(:task)
           subject.tasks << task_a
@@ -181,7 +181,7 @@ RSpec.describe List do
       end
 
       context 'and both lists belongs to the task' do
-        it "should swap the tasks' ids in task_positions" do
+        it "swaps the tasks' ids in task_positions" do
           task_a = create(:task)
           task_b = create(:task)
           subject.tasks << [task_a, task_b]
@@ -196,7 +196,7 @@ RSpec.describe List do
     end
 
     context 'when given anything other than two lists' do
-      it 'should raise an error' do
+      it 'raises an error' do
         expect { subject.exchange_positions(build(:list), build(:goal)) }
           .to raise_error(TypeError)
       end
@@ -204,7 +204,7 @@ RSpec.describe List do
   end
 
   describe '#ordered_tasks' do
-    it 'should return the tasks ordered by task_positions' do
+    it 'returns the tasks ordered by task_positions' do
       subject.task_positions.shuffle!
       expect(subject.ordered_tasks.map(&:id))
         .to eq(subject.task_positions)
