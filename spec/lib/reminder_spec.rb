@@ -2,16 +2,15 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'resque_spec/scheduler'
 
 RSpec.describe Reminder do
   before do
-    ResqueSpec.reset!
+    Resque.reset_delayed_queue
   end
 
   shared_examples_for 'an unnecessary reminder' do
     it "doesn't queue a ReminderJob" do
-      expect(ReminderJob).to have_schedule_size_of(0)
+      expect(Resque.delayed_queue_schedule_size).to eq(0)
     end
 
     it 'returns a helpful value' do
