@@ -4,11 +4,11 @@
 # The object of ambition and effort. The completeion of associated tasks move
 # the user closer to the desired achievement.
 class Goal < ActiveRecord::Base
-  include Deletable
-  include Deferrable
-  include Completable
-  include Positionable
   include Classifiable
+  include Completable
+  include Deferrable
+  include Deletable
+  include Positionable
   include Schedulable
 
   validates :label, presence: true

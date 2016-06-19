@@ -3,8 +3,8 @@
 
 # An individual step, the combination of which make up the activity of a Task.
 class Subtask < ActiveRecord::Base
-  include Deletable
   include Completable
+  include Deletable
 
   validates :label, presence: true
 

@@ -4,10 +4,10 @@
 # An individual piece of work the completion of which moves the user a step
 # closer to achieving a Goal.
 class Task < ActiveRecord::Base
-  include Deletable
-  include Deferrable
-  include Completable
   include Classifiable
+  include Completable
+  include Deferrable
+  include Deletable
   include Remindable
   include Schedulable
 
