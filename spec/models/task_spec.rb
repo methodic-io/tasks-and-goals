@@ -4,7 +4,11 @@
 require 'rails_helper'
 
 RSpec.describe Task do
-  let(:subject) { build(:task, :with_subtasks) }
+  let(:subject) { create(:task, :with_subtasks) }
+
+  def random_number_of_days
+    (1..10).to_a.sample.days
+  end
 
   it { should respond_to(:label) }
   it { should respond_to(:note) }
@@ -96,7 +100,88 @@ RSpec.describe Task do
   end
 
   describe '#reminder_at' do
+    before do
+      Resque.reset_delayed_queue
+    end
+
     it { expect(subject.reminder_at).to be_an(ActiveSupport::TimeWithZone) }
+
+    context "when a task's reminder_at is set" do
+      it 'waits until the task is created to create the reminder' do
+        task = build(:task, :without_reminder)
+        expect(Resque.delayed_queue_schedule_size).to eq(0)
+        task.reminder_at = random_number_of_days.from_now
+        expect(Resque.delayed_queue_schedule_size).to eq(0)
+        task.save!
+        expect(ReminderJob)
+          .to have_scheduled(task_id: task.id).at(task.reminder_at)
+      end
+
+      it 'creates a reminder if the reminder_at is in the future' do
+        task = create(:task, :without_reminder)
+        expect(ReminderJob).not_to have_scheduled(task_id: task.id)
+        task.reminder_at = random_number_of_days.from_now
+        expect(ReminderJob)
+          .to have_scheduled(task_id: task.id).at(task.reminder_at)
+      end
+
+      it "doesn't change the reminders if the reminder_at is in the past" do
+        task = create(:task, :without_reminder)
+        expect(ReminderJob).not_to have_scheduled(task_id: task.id)
+        task.reminder_at = random_number_of_days.ago
+        expect(ReminderJob).not_to have_scheduled(task_id: task.id)
+      end
+    end
+
+    context "when a task's reminder_at is updated" do
+      it 'creates a reminder if the old value was is in the past and the new ' \
+         'value is in the future' do
+        subject.reminder_at = random_number_of_days.ago
+        expect(ReminderJob).not_to have_scheduled(task_id: subject.id)
+        subject.reminder_at = random_number_of_days.from_now
+        expect(ReminderJob)
+          .to have_scheduled(task_id: subject.id).at(subject.reminder_at)
+      end
+
+      it 'removes the previous reminder and creates a new one if both the '    \
+         'old and new values are in the future' do
+        previous_reminder_at = random_number_of_days.from_now
+        subject.reminder_at  = previous_reminder_at
+        expect(ReminderJob)
+          .to have_scheduled(task_id: subject.id).at(previous_reminder_at)
+        subject.reminder_at = 1.month.from_now
+        expect(ReminderJob)
+          .not_to have_scheduled(task_id: subject.id).at(previous_reminder_at)
+        expect(ReminderJob)
+          .to have_scheduled(task_id: subject.id).at(subject.reminder_at)
+      end
+
+      it "doesn't change the reminders if both the old and new values are in " \
+         'the past' do
+        previous_reminder_at = random_number_of_days.ago
+        subject.reminder_at  = previous_reminder_at
+        expect(ReminderJob).not_to have_scheduled(task_id: subject.id)
+        subject.reminder_at = random_number_of_days.ago
+        expect(ReminderJob).not_to have_scheduled(task_id: subject.id)
+      end
+    end
+
+    context "when a task's reminder_at is unset" do
+      it 'removes the relevant reminder if the reminder_at was in the future' do
+        subject.reminder_at = random_number_of_days.from_now
+        expect(ReminderJob)
+          .to have_scheduled(task_id: subject.id).at(subject.reminder_at)
+        subject.reminder_at = nil
+        expect(ReminderJob).not_to have_scheduled(task_id: subject.id)
+      end
+
+      it "doesn't change the reminders if the reminder_at was in the past" do
+        subject.reminder_at = random_number_of_days.ago
+        expect(ReminderJob).not_to have_scheduled(task_id: subject.id)
+        subject.reminder_at = nil
+        expect(ReminderJob).not_to have_scheduled(task_id: subject.id)
+      end
+    end
   end
 
   describe '#needs_reminding?' do
