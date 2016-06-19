@@ -62,8 +62,6 @@ group :development, :test do
   gem 'coveralls', require: false
   # Use Rubocop for static code analysis.
   gem 'rubocop', require: false
-  # Use Resque Spec to help test the Resque integration.
-  gem 'resque_spec'
 end
 
 group :development do
