@@ -22,20 +22,31 @@ RSpec.describe Reminder do
     context "when the given task's reminder_at is in the future" do
       let(:task) { build(:task, reminder_at: 1.day.from_now) }
 
-      it 'adds a ReminderJob to the reminders queue' do
-        Reminder.setup(task)
-        expect(ReminderJob).to have_scheduled(task.id).at(task.reminder_at)
+      context 'when the task has not been saved' do
+        it 'returns a helpful value' do
+          expect(Reminder.setup(task))
+            .to eq(:this_task_needs_reminding_but_lacks_an_id)
+        end
+      end
+
+      context 'when the task has been saved' do
+        it 'adds a ReminderJob to the reminders queue' do
+          task.save!
+          Reminder.setup(task)
+          expect(ReminderJob)
+            .to have_scheduled(task_id: task.id).at(task.reminder_at)
+        end
       end
     end
 
     context "when the given task's reminder_at is in the past" do
-      let(:task) { build(:task, reminder_at: 1.day.ago) }
+      let(:task) { create(:task, reminder_at: 1.day.ago) }
 
       it_behaves_like 'an unnecessary reminder'
     end
 
     context "when the given task's reminder_at is blank" do
-      let(:task) { build(:task, reminder_at: nil) }
+      let(:task) { create(:task, reminder_at: nil) }
 
       it_behaves_like 'an unnecessary reminder'
     end
