@@ -28,6 +28,10 @@ FactoryGirl.define do
       completed_at nil
     end
 
+    trait :without_reminder do
+      reminder_at nil
+    end
+
     trait :with_subtasks do
       subtasks { Array.new(5) { create(:subtask) }.shuffle! }
     end
