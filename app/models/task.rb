@@ -8,6 +8,7 @@ class Task < ActiveRecord::Base
   include Deferrable
   include Completable
   include Classifiable
+  include Remindable
   include Schedulable
 
   validates :label, presence: true
@@ -49,10 +50,6 @@ class Task < ActiveRecord::Base
 
   def repeat_frequency=(duration)
     super(duration.to_i)
-  end
-
-  def needs_reminding?
-    !reminder_at.blank? && reminder_at.future?
   end
 
   def subtasks=(subtasks)
