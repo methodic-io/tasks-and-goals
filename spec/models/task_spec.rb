@@ -166,13 +166,48 @@ RSpec.describe Task do
   end
 
   describe '#complete' do
-    let(:subject) { build(:task, :incomplete) }
+    let(:subject) { create(:task, :incomplete) }
+
+    before do
+      Resque.reset_delayed_queue
+    end
 
     it { expect(subject.complete).to eq(subject) }
 
-    it do
+    it 'sets the completed_at property to now' do
       expect { subject.complete }
         .to change { subject.completed_at.to_s }.from('').to(Time.current.to_s)
+    end
+
+    context 'when a task is completed and is set to repeat' do
+      it 'creates a cloned task with an appropriate due_at property' do
+        subject.complete
+        completed_at = subject.completed_at
+        time_range   = completed_at..(completed_at + 0.5.seconds)
+        clone = Task.where(label: subject.label, created_at: time_range).first
+
+        expect(clone).to be_a(Task)
+        expect(clone.repeat_frequency).to eq(subject.repeat_frequency)
+        expect(clone.due_at.to_s)
+          .to eq((subject.completed_at + subject.repeat_frequency).to_s)
+        expect(clone.reminder_at.to_s)
+          .to eq((subject.reminder_at + subject.repeat_frequency).to_s)
+        expect(ReminderJob)
+          .to have_scheduled(task_id: clone.id).at(clone.reminder_at)
+      end
+    end
+
+    context 'when a task is completed and has a pending reminder' do
+      it 'removes the pending reminder' do
+        subject.reminder_at = 1.day.from_now
+        subject.save!
+        expect(ReminderJob)
+          .to have_scheduled(task_id: subject.id).at(subject.reminder_at)
+
+        subject.complete
+
+        expect(ReminderJob).not_to have_scheduled(task_id: subject.id)
+      end
     end
   end
 
