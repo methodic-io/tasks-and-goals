@@ -511,4 +511,52 @@ RSpec.describe Task do
         .to eq(subject.subtask_positions)
     end
   end
+
+  describe '#lists=' do
+    context 'when set to an empty array' do
+      it 'removes the task id from each previously assigned' \
+         "list's task_positions" do
+        pending
+      end
+    end
+
+    context 'when set to an array of lists' do
+      it 'removes the task id from each previously assigned' \
+         "list's task_positions" do
+        pending
+      end
+
+      it 'does nothing to the task_positions of lists that were both ' \
+         "previously assigned and newly assigned" do
+        pending
+      end
+
+      it "adds the task id to the top of the each list's task_positions" do
+        pending
+      end
+    end
+
+    context 'when set with anything other than an empty array or ' \
+      'an array of lists' do
+      it 'raises an error' do
+        pending
+      end
+    end
+  end
+
+  describe '#lists <<' do
+    context 'when a list is assigned' do
+      it "adds the task id to the top of the list's task_positions" do
+        pending
+      end
+    end
+  end
+
+  describe '#lists.delete' do
+    context 'when a list is removed' do
+      it "removes the task id from the list's task_positions" do
+        pending
+      end
+    end
+  end
 end

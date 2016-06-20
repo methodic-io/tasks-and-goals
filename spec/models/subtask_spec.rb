@@ -47,4 +47,25 @@ RSpec.describe Subtask do
         .to change { subject.completed? }.from(false).to(true)
     end
   end
+
+  describe '#task=' do
+    context 'when a new task is assigned' do
+      it "adds the subtask id to the top of the task's subtask_positions" do
+        pending
+      end
+    end
+
+    context 'when the existing task is assigned' do
+      it "does nothing" do
+        pending
+      end
+    end
+
+    context 'when the existing task is unassigned' do 
+      it 'removes the subtask id from the previously assigned ' \
+         "task's subtask_positions" do
+        pending
+      end
+    end
+  end
 end

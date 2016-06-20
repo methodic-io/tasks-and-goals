@@ -210,4 +210,52 @@ RSpec.describe List do
         .to eq(subject.task_positions)
     end
   end
+
+  describe '#groups=' do
+    context 'when set to an empty array' do
+      it 'removes the list id from each previously assigned' \
+         "group's list_positions" do
+        pending
+      end
+    end
+
+    context 'when set to an array of groups' do
+      it 'removes the list id from each previously assigned' \
+         "group's list_positions" do
+        pending
+      end
+
+      it 'does nothing to the list_positions of groups that were both ' \
+         "previously assigned and newly assigned" do
+        pending
+      end
+
+      it "adds the list id to the top of the each group's list_positions" do
+        pending
+      end
+    end
+
+    context 'when set with anything other than an empty array or ' \
+      'an array of groups' do
+      it 'raises an error' do
+        pending
+      end
+    end
+  end
+
+  describe '#groups <<' do
+    context 'when a group is assigned' do
+      it "adds the list id to the top of the group's list_positions" do
+        pending
+      end
+    end
+  end
+
+  describe '#groups.delete' do
+    context 'when a group is removed' do
+      it "removes the list id from the group's list_positions" do
+        pending
+      end
+    end
+  end
 end
