@@ -51,20 +51,42 @@ RSpec.describe Subtask do
   describe '#task=' do
     context 'when a new task is assigned' do
       it "adds the subtask id to the top of the task's subtask_positions" do
-        pending
+        task = create(:task, :with_subtasks)
+        expect(task.subtasks).not_dueto include(subject)
+        expect(task.subtask_positions).not_to be_empty
+        expect(task.subtask_positions).not_to include(subject.id)
+        expect { subject.task = task }
+          .to change { task.subtask_positions.count }.by(1)
+        expect(task.subtask_positions.first).to eq(subject.id)
+        expect(task.subtasks).to include(subject)
       end
     end
 
     context 'when the existing task is assigned' do
       it "does nothing" do
-        pending
+        task = create(:task, :with_subtasks)
+        subject.task = task
+        expect(task.subtasks).to include(subject)
+        expect(task.subtask_positions).not_to be_empty
+        expect(task.subtask_positions).to include(subject.id)
+        expect { subject.task = task }
+          .not_to change { task.subtask_positions.count }.by(1)
+        expect(task.subtasks).to include(subject)
       end
     end
 
-    context 'when the existing task is unassigned' do 
+    context 'when the existing task is unassigned' do
       it 'removes the subtask id from the previously assigned ' \
          "task's subtask_positions" do
-        pending
+        task = create(:task, :with_subtasks)
+        subject.task = task
+        expect(task.subtasks).to include(subject)
+        expect(task.subtask_positions).not_to be_empty
+        expect(task.subtask_positions).to include(subject.id)
+        expect { subject.task = nil }
+          .to change { task.subtask_positions.count }.by(1)
+        expect(task.subtask_positions).not_to include(subject.id)
+        expect(task.subtasks).not_to include(subject)
       end
     end
   end

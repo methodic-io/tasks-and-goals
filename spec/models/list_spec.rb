@@ -215,30 +215,63 @@ RSpec.describe List do
     context 'when set to an empty array' do
       it 'removes the list id from each previously assigned' \
          "group's list_positions" do
-        pending
+        groups = Array.new(5) { create(:group) }.shuffle!
+        groups.each do |group|
+          group.lists << subject
+          group.save!
+          expect(group.list_positions).to include(subject.id)
+        end
+        subject.groups = []
+        groups.each do |group|
+          expect(group.list_positions).not_to include(subject.id)
+        end
       end
     end
 
     context 'when set to an array of groups' do
       it 'removes the list id from each previously assigned' \
          "group's list_positions" do
-        pending
+        groups = Array.new(5) { create(:group) }.shuffle!
+        groups.each do |group|
+          group.lists << subject
+          group.save!
+          expect(group.list_positions).to include(subject.id)
+        end
+        subject.groups = Array.new(5) { create(:group) }.shuffle!
+        groups.each do |group|
+          expect(group.list_positions).not_to include(subject.id)
+        end
       end
 
       it 'does nothing to the list_positions of groups that were both ' \
          "previously assigned and newly assigned" do
-        pending
+        groups = Array.new(3) { create(:group) }.shuffle!
+        subject.groups = (Array.new(5) { create(:group) } + groups).suffle!
+
+        expect do
+          subject.groups = (Array.new(5) { create(:group) } + groups).suffle!
+        end.not_to change do
+          groups.map { |l| l.list_positions.index(subject.id) }
+        end
       end
 
       it "adds the list id to the top of the each group's list_positions" do
-        pending
+        groups = Array.new(5) { create(:group) }.shuffle!
+        groups.each do |group|
+          expect(group.list_positions).to include(subject.id)
+        end
+        subject.groups = groups
+        groups.each do |group|
+          expect(group.list_positions.first).to eq(subject.id)
+        end
       end
     end
 
     context 'when set with anything other than an empty array or ' \
       'an array of groups' do
       it 'raises an error' do
-        pending
+        expect { subject.groups = Array.new(5) { create(:goals) }.shuffle! }
+          .to raise_error(TypeError)
       end
     end
   end
@@ -246,7 +279,10 @@ RSpec.describe List do
   describe '#groups <<' do
     context 'when a group is assigned' do
       it "adds the list id to the top of the group's list_positions" do
-        pending
+        subject.groups = Array.new(5) { create(:group) }.shuffle!
+        new_group      = create(:group)
+        subject.groups << new_group
+        expect(new_group.list_positions.first).to eq(subject.id)
       end
     end
   end
@@ -254,7 +290,10 @@ RSpec.describe List do
   describe '#groups.delete' do
     context 'when a group is removed' do
       it "removes the list id from the group's list_positions" do
-        pending
+        subject.groups = Array.new(5) { create(:group) }.shuffle!
+        old_group      = subject.groups.first
+        subject.groups.delete(old_group)
+        expect(old_group.list_positions).not_to include(subject.id)
       end
     end
   end

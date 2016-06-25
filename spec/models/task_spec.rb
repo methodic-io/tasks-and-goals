@@ -516,30 +516,63 @@ RSpec.describe Task do
     context 'when set to an empty array' do
       it 'removes the task id from each previously assigned' \
          "list's task_positions" do
-        pending
+        lists = Array.new(5) { create(:list) }.shuffle!
+        lists.each do |list|
+          list.tasks << subject
+          list.save!
+          expect(list.task_positions).to include(subject.id)
+        end
+        subject.lists = []
+        lists.each do |list|
+          expect(list.task_positions).not_to include(subject.id)
+        end
       end
     end
 
     context 'when set to an array of lists' do
       it 'removes the task id from each previously assigned' \
          "list's task_positions" do
-        pending
+        lists = Array.new(5) { create(:list) }.shuffle!
+        lists.each do |list|
+          list.tasks << subject
+          list.save!
+          expect(list.task_positions).to include(subject.id)
+        end
+        subject.lists = Array.new(5) { create(:list) }.shuffle!
+        lists.each do |list|
+          expect(list.task_positions).not_to include(subject.id)
+        end
       end
 
       it 'does nothing to the task_positions of lists that were both ' \
          "previously assigned and newly assigned" do
-        pending
+        lists = Array.new(3) { create(:list) }.shuffle!
+        subject.lists = (Array.new(5) { create(:list) } + lists).suffle!
+
+        expect do
+          subject.lists = (Array.new(5) { create(:list) } + lists).suffle!
+        end.not_to change do
+          lists.map { |l| l.task_positions.index(subject.id) }
+        end
       end
 
       it "adds the task id to the top of the each list's task_positions" do
-        pending
+        lists = Array.new(5) { create(:list) }.shuffle!
+        lists.each do |list|
+          expect(list.task_positions).to include(subject.id)
+        end
+        subject.lists = lists
+        lists.each do |list|
+          expect(list.task_positions.first).to eq(subject.id)
+        end
       end
     end
 
     context 'when set with anything other than an empty array or ' \
       'an array of lists' do
       it 'raises an error' do
-        pending
+        expect { subject.lists = Array.new(5) { create(:goals) }.shuffle! }
+          .to raise_error(TypeError)
       end
     end
   end
@@ -547,7 +580,10 @@ RSpec.describe Task do
   describe '#lists <<' do
     context 'when a list is assigned' do
       it "adds the task id to the top of the list's task_positions" do
-        pending
+        subject.lists = Array.new(5) { create(:list) }.shuffle!
+        new_list      = create(:list)
+        subject.lists << new_list
+        expect(new_list.task_positions.first).to eq(subject.id)
       end
     end
   end
@@ -555,7 +591,10 @@ RSpec.describe Task do
   describe '#lists.delete' do
     context 'when a list is removed' do
       it "removes the task id from the list's task_positions" do
-        pending
+        subject.lists = Array.new(5) { create(:list) }.shuffle!
+        old_list      = subject.lists.first
+        subject.lists.delete(old_list)
+        expect(old_list.task_positions).not_to include(subject.id)
       end
     end
   end
