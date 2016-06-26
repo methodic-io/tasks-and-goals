@@ -14,7 +14,20 @@ class Task < ActiveRecord::Base
   validates :label, presence: true
 
   has_many :listings
-  has_many :lists, through: :listings
+  has_many :lists, through: :listings do
+    def <<(value)
+      super(value)
+      value.tasks << proxy_association.owner
+      value.save!
+    end
+
+    def delete(value)
+      value.tasks.delete(proxy_association.owner)
+      value.save!
+      super(value)
+    end
+  end
+
   has_many :subtasks do
     def <<(value)
       super(value)
@@ -52,9 +65,22 @@ class Task < ActiveRecord::Base
     super(duration.to_i)
   end
 
-  def subtasks=(subtasks)
-    self.subtask_positions = subtasks.map(&:id)
-    super(subtasks)
+  def lists=(new_lists)
+    old_lists = lists.to_a
+    super(new_lists)
+    (old_lists - new_lists).each do |l|
+      l.tasks.delete(self)
+      l.save!
+    end
+    (new_lists - old_lists).each do |l|
+      l.tasks << self
+      l.save!
+    end
+  end
+
+  def subtasks=(new_subtasks)
+    self.subtask_positions = new_subtasks.map(&:id)
+    super(new_subtasks)
   end
 
   def position_subtask(subtask, position)

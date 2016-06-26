@@ -10,7 +10,19 @@ class List < ActiveRecord::Base
 
   belongs_to :goal
   has_many   :groupings
-  has_many   :groups, through: :groupings
+  has_many   :groups, through: :groupings do
+    def <<(value)
+      super(value)
+      value.lists << proxy_association.owner
+      value.save!
+    end
+
+    def delete(value)
+      value.lists.delete(proxy_association.owner)
+      value.save!
+      super(value)
+    end
+  end
   has_many   :listings
   has_many   :tasks, through: :listings do
     def <<(value)
@@ -27,6 +39,19 @@ class List < ActiveRecord::Base
   end
 
   serialize :task_positions, Array
+
+  def groups=(new_groups)
+    old_groups = groups.to_a
+    super(new_groups)
+    (old_groups - new_groups).each do |g|
+      g.lists.delete(self)
+      g.save!
+    end
+    (new_groups - old_groups).each do |g|
+      g.lists << self
+      g.save!
+    end
+  end
 
   def tasks=(tasks)
     self.task_positions = tasks.map(&:id)
