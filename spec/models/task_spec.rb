@@ -524,6 +524,7 @@ RSpec.describe Task do
         end
         subject.lists = []
         lists.each do |list|
+          list.reload
           expect(list.task_positions).not_to include(subject.id)
         end
       end
@@ -540,26 +541,25 @@ RSpec.describe Task do
         end
         subject.lists = Array.new(5) { create(:list) }.shuffle!
         lists.each do |list|
+          list.reload
           expect(list.task_positions).not_to include(subject.id)
         end
       end
 
       it 'does nothing to the task_positions of lists that were both ' \
-         "previously assigned and newly assigned" do
+         'previously assigned and newly assigned' do
         lists = Array.new(3) { create(:list) }.shuffle!
-        subject.lists = (Array.new(5) { create(:list) } + lists).suffle!
-
-        expect do
-          subject.lists = (Array.new(5) { create(:list) } + lists).suffle!
-        end.not_to change do
-          lists.map { |l| l.task_positions.index(subject.id) }
-        end
+        subject.lists = (Array.new(5) { create(:list) } + lists).shuffle!
+        new_lists     = (Array.new(5) { create(:list) } + lists).shuffle!
+        expect { subject.lists = new_lists }.not_to(
+          change { lists.map { |l| l.task_positions.index(subject.id) } }
+        )
       end
 
       it "adds the task id to the top of the each list's task_positions" do
         lists = Array.new(5) { create(:list) }.shuffle!
         lists.each do |list|
-          expect(list.task_positions).to include(subject.id)
+          expect(list.task_positions).not_to include(subject.id)
         end
         subject.lists = lists
         lists.each do |list|
@@ -571,8 +571,8 @@ RSpec.describe Task do
     context 'when set with anything other than an empty array or ' \
       'an array of lists' do
       it 'raises an error' do
-        expect { subject.lists = Array.new(5) { create(:goals) }.shuffle! }
-          .to raise_error(TypeError)
+        expect { subject.lists = Array.new(5) { create(:goal) }.shuffle! }
+          .to raise_error(ActiveRecord::AssociationTypeMismatch)
       end
     end
   end

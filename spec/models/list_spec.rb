@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe List do
-  let(:subject) { build(:list, :with_tasks) }
+  let(:subject) { create(:list, :with_tasks) }
 
   it { should respond_to(:label) }
   it { should respond_to(:task_positions) }
@@ -223,6 +223,7 @@ RSpec.describe List do
         end
         subject.groups = []
         groups.each do |group|
+          group.reload
           expect(group.list_positions).not_to include(subject.id)
         end
       end
@@ -239,26 +240,25 @@ RSpec.describe List do
         end
         subject.groups = Array.new(5) { create(:group) }.shuffle!
         groups.each do |group|
+          group.reload
           expect(group.list_positions).not_to include(subject.id)
         end
       end
 
       it 'does nothing to the list_positions of groups that were both ' \
-         "previously assigned and newly assigned" do
+         'previously assigned and newly assigned' do
         groups = Array.new(3) { create(:group) }.shuffle!
-        subject.groups = (Array.new(5) { create(:group) } + groups).suffle!
-
-        expect do
-          subject.groups = (Array.new(5) { create(:group) } + groups).suffle!
-        end.not_to change do
-          groups.map { |l| l.list_positions.index(subject.id) }
-        end
+        subject.groups = (Array.new(5) { create(:group) } + groups).shuffle!
+        new_groups     = (Array.new(5) { create(:group) } + groups).shuffle!
+        expect { subject.groups = new_groups }.not_to(
+          change { groups.map { |l| l.list_positions.index(subject.id) } }
+        )
       end
 
       it "adds the list id to the top of the each group's list_positions" do
         groups = Array.new(5) { create(:group) }.shuffle!
         groups.each do |group|
-          expect(group.list_positions).to include(subject.id)
+          expect(group.list_positions).not_to include(subject.id)
         end
         subject.groups = groups
         groups.each do |group|
@@ -270,8 +270,8 @@ RSpec.describe List do
     context 'when set with anything other than an empty array or ' \
       'an array of groups' do
       it 'raises an error' do
-        expect { subject.groups = Array.new(5) { create(:goals) }.shuffle! }
-          .to raise_error(TypeError)
+        expect { subject.groups = Array.new(5) { create(:goal) }.shuffle! }
+          .to raise_error(ActiveRecord::AssociationTypeMismatch)
       end
     end
   end
