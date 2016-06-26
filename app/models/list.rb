@@ -21,8 +21,8 @@ class List < ActiveRecord::Base
     end
 
     def delete(value)
-      super(value)
       proxy_association.owner.task_positions.delete(value.id)
+      super(value)
     end
   end
 
