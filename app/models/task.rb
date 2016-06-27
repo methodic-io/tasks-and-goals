@@ -8,6 +8,7 @@ class Task < ActiveRecord::Base
   include Completable
   include Deferrable
   include Deletable
+  include Ensurable
   include Remindable
   include Schedulable
 
@@ -84,22 +85,19 @@ class Task < ActiveRecord::Base
   end
 
   def position_subtask(subtask, position)
-    ensure_arguments_are_subtasks(__method__, subtask)
-    ensure_subtasks_are_associated(__method__, subtask)
-    ensure_position_is_in_bounds(__method__, position)
+    ensure_arguments_are_the_correct_class(__method__, Subtask, subtask)
+    ensure_objects_are_associated(__method__, subtasks, subtask)
+    ensure_position_is_in_bounds(__method__, position, subtask_positions.count)
 
     subtask_positions.delete(subtask.id)
     subtask_positions.insert(position, subtask.id)
   end
 
   def exchange_positions(subtask_a, subtask_b)
-    ensure_arguments_are_subtasks(__method__, subtask_a, subtask_b)
-    ensure_subtasks_are_associated(__method__, subtask_a, subtask_b)
-
-    pos_a = subtask_positions.index(subtask_a.id)
-    pos_b = subtask_positions.index(subtask_b.id)
-    subtask_positions[pos_a] = subtask_b.id
-    subtask_positions[pos_b] = subtask_a.id
+    args = [subtask_a, subtask_b]
+    ensure_arguments_are_the_correct_class(__method__, Subtask, *args)
+    ensure_objects_are_associated(__method__, subtasks, *args)
+    swap_positions(subtask_a.id, subtask_b.id)
   end
 
   def ordered_subtasks
@@ -110,29 +108,10 @@ class Task < ActiveRecord::Base
 
   private
 
-  def ensure_arguments_are_subtasks(method, *subtasks)
-    subtasks.each do |subtask|
-      unless subtask.is_a? Subtask
-        msg = "#{self.class}##{method} can only accept Subtasks as arguments."
-        raise TypeError, msg
-      end
-    end
-  end
-
-  def ensure_subtasks_are_associated(method, *subtasks)
-    unless (subtasks.map(&:id) - self.subtasks.map(&:id)).empty?
-      msg = "#{self.class} must be associated with the given subtask(s) for " \
-            "#{method} to work."
-      raise ArgumentError, msg
-    end
-  end
-
-  def ensure_position_is_in_bounds(method, pos)
-    if pos >= subtask_positions.count || pos < -subtask_positions.count
-      msg = "The position,#{pos} , must be in bounds (positive or negative) " \
-            "for #{method} to work. The positions array has a count of "      \
-            "#{subtask_positions.count}."
-      raise ArgumentError, msg
-    end
+  def swap_positions(val_a, val_b)
+    index_a = subtask_positions.index(val_a)
+    index_b = subtask_positions.index(val_b)
+    subtask_positions[index_a] = val_b
+    subtask_positions[index_b] = val_a
   end
 end

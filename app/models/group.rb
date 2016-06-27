@@ -5,6 +5,7 @@
 # of its Lists.
 class Group < ActiveRecord::Base
   include Deletable
+  include Ensurable
   include Positionable
 
   validates :label, presence: true
@@ -32,22 +33,18 @@ class Group < ActiveRecord::Base
   end
 
   def position_list(list, position)
-    ensure_arguments_are_lists(__method__, list)
-    ensure_lists_are_associated(__method__, list)
-    ensure_position_is_in_bounds(__method__, position)
+    ensure_arguments_are_the_correct_class(__method__, List, list)
+    ensure_objects_are_associated(__method__, lists, list)
+    ensure_position_is_in_bounds(__method__, position, list_positions.count)
 
     list_positions.delete(list.id)
     list_positions.insert(position, list.id)
   end
 
   def exchange_positions(list_a, list_b)
-    ensure_arguments_are_lists(__method__, list_a, list_b)
-    ensure_lists_are_associated(__method__, list_a, list_b)
-
-    pos_a = list_positions.index(list_a.id)
-    pos_b = list_positions.index(list_b.id)
-    list_positions[pos_a] = list_b.id
-    list_positions[pos_b] = list_a.id
+    ensure_arguments_are_the_correct_class(__method__, List, list_a, list_b)
+    ensure_objects_are_associated(__method__, lists, list_a, list_b)
+    swap_positions(list_a.id, list_b.id)
   end
 
   def ordered_lists
@@ -58,29 +55,10 @@ class Group < ActiveRecord::Base
 
   private
 
-  def ensure_arguments_are_lists(method, *lists)
-    lists.each do |list|
-      unless list.is_a? List
-        msg = "#{self.class}##{method} can only accept lists as arguments."
-        raise TypeError, msg
-      end
-    end
-  end
-
-  def ensure_lists_are_associated(method, *lists)
-    unless (lists.map(&:id) - list_positions).empty?
-      msg = "#{self.class} must be associated with the given list(s) for " \
-            "#{method} to work."
-      raise ArgumentError, msg
-    end
-  end
-
-  def ensure_position_is_in_bounds(method, pos)
-    if pos >= list_positions.count || pos < -list_positions.count
-      msg = "The position,#{pos} , must be in bounds (positive or negative) " \
-            "for #{method} to work. The positions array has a count of "      \
-            "#{list_positions.count}."
-      raise ArgumentError, msg
-    end
+  def swap_positions(val_a, val_b)
+    index_a = list_positions.index(val_a)
+    index_b = list_positions.index(val_b)
+    list_positions[index_a] = val_b
+    list_positions[index_b] = val_a
   end
 end

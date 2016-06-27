@@ -5,6 +5,7 @@
 # of its Tasks.
 class List < ActiveRecord::Base
   include Deletable
+  include Ensurable
 
   validates :label, presence: true
 
@@ -59,22 +60,18 @@ class List < ActiveRecord::Base
   end
 
   def position_task(task, position)
-    ensure_arguments_are_tasks(__method__, task)
-    ensure_tasks_are_associated(__method__, task)
-    ensure_position_is_in_bounds(__method__, position)
+    ensure_arguments_are_the_correct_class(__method__, Task, task)
+    ensure_objects_are_associated(__method__, tasks, task)
+    ensure_position_is_in_bounds(__method__, position, task_positions.count)
 
     task_positions.delete(task.id)
     task_positions.insert(position, task.id)
   end
 
   def exchange_positions(task_a, task_b)
-    ensure_arguments_are_tasks(__method__, task_a, task_b)
-    ensure_tasks_are_associated(__method__, task_a, task_b)
-
-    pos_a = task_positions.index(task_a.id)
-    pos_b = task_positions.index(task_b.id)
-    task_positions[pos_a] = task_b.id
-    task_positions[pos_b] = task_a.id
+    ensure_arguments_are_the_correct_class(__method__, Task, task_a, task_b)
+    ensure_objects_are_associated(__method__, tasks, task_a, task_b)
+    swap_positions(task_a.id, task_b.id)
   end
 
   def ordered_tasks
@@ -85,29 +82,10 @@ class List < ActiveRecord::Base
 
   private
 
-  def ensure_arguments_are_tasks(method, *tasks)
-    tasks.each do |task|
-      unless task.is_a? Task
-        msg = "#{self.class}##{method} can only accept tasks as arguments."
-        raise TypeError, msg
-      end
-    end
-  end
-
-  def ensure_tasks_are_associated(method, *tasks)
-    unless (tasks.map(&:id) - self.tasks.map(&:id)).empty?
-      msg = "#{self.class} must be associated with the given task(s) for " \
-            "#{method} to work."
-      raise ArgumentError, msg
-    end
-  end
-
-  def ensure_position_is_in_bounds(method, pos)
-    if pos >= task_positions.count || pos < -task_positions.count
-      msg = "The position,#{pos} , must be in bounds (positive or negative) " \
-            "for #{method} to work. The positions array has a count of "      \
-            "#{task_positions.count}."
-      raise ArgumentError, msg
-    end
+  def swap_positions(val_a, val_b)
+    index_a = task_positions.index(val_a)
+    index_b = task_positions.index(val_b)
+    task_positions[index_a] = val_b
+    task_positions[index_b] = val_a
   end
 end
