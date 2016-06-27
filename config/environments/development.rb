@@ -42,4 +42,13 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Send mail to Mailtrap.io
+  config.action_mailer.delivery_method = :smtp
+
+  smtp_config_file = File.read "#{Rails.root}/config/smtp.yml"
+  smtp_config      = YAML.load(smtp_config_file).symbolize_keys!
+  merged_config    = smtp_config.merge(domain: 'mailtrap.io',
+                                       authentication: :cram_md5)
+  config.action_mailer.smtp_settings = merged_config
 end

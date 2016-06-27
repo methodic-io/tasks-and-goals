@@ -83,4 +83,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Send mail via Methodic.io. Ultimately Methodic mail will be andled by
+  # the Methodic Mailer service.
+  config.action_mailer.delivery_method = :smtp
+
+  smtp_config_file = File.read "#{Rails.root}/config/smtp.yml"
+  smtp_config      = YAML.load(smtp_config_file).symbolize_keys!
+  config.action_mailer.smtp_settings = smtp_config.merge(domain: 'methodic.io')
 end

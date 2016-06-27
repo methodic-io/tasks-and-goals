@@ -9,7 +9,7 @@ class ListBuilder < Builder
   def build
     wrangle_data
     @list = ObjectFactory.new(List).build(@data).instance
-    handle_list_associations
+    handle_associations('tasks', 'task_positions', by_list)
     @list.save!
   end
 
@@ -24,17 +24,7 @@ class ListBuilder < Builder
     @data['label'] = @data['label'] || @data['title']
   end
 
-  def handle_list_associations
-    associated_tasks = find('tasks', by_list)
-
-    if associated_tasks.any?
-      assign_tasks_to_list(associated_tasks)
-      positions_data = find('task_positions', by_list)
-      populate_task_positions(positions_data.first['values'])
-    end
-  end
-
-  def assign_tasks_to_list(tasks_data)
+  def assign_associations(tasks_data)
     tasks_data.each do |task_data|
       task_query = { label: task_data['title'],
                      created_at: Time.zone.parse(task_data['created_at']) }
@@ -43,12 +33,12 @@ class ListBuilder < Builder
     end
   end
 
-  def populate_task_positions(task_positions)
-    task_positions.each do |source_id|
+  def populate_positions(task_positions)
+    task_positions.each_with_index do |source_id, i|
       task_data = @all_data['tasks'].find { |t| t['id'] == source_id }
       next unless task_data
-      task = @list.tasks.select(&task_selector(task_data)).first
-      @list.task_positions << task.id if task
+      task = @list.tasks.find(&task_selector(task_data))
+      @list.position_task(task, i) if task
     end
   end
 

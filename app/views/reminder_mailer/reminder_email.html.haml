@@ -1,0 +1,28 @@
+%h1
+  = "Don't forget to '#{@task.label}'."
+
+- goals = @task.lists.map(&:goal)
+- if goals.any?
+  .goals
+    This task will bring you closer to completing the following goals:
+    %ul
+      - goals.each do |goal|
+        - goal_copy = goal.label
+        - goal_copy += ": due on #{goal.due_at}" if goal.due?
+        %li= goal_copy
+
+- if @task.subtasks.any?
+  .subtasks
+    This task has been broken down into the following subtasks:
+    %ul
+      - @task.subtasks.each do |subtask|
+        - subtask_copy = subtask.label
+        - subtask_copy += ' (complete)' if subtask.completed?
+        %li= subtask_copy
+
+- if @task.deferred?
+  .deferreds
+    This task has been deferred on the following dates and times:
+    %ul
+      - @task.deferred_at.each do |deferred_at|
+        %li= deferred_at.to_s

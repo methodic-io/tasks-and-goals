@@ -15,3 +15,13 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore Coveralls generated files
+/coverage/*
+
+# Ignore sensitive configuration files
+/config/resque.yml
+/config/smtp.yml
+
+# Redis Dump
+/dump.rdb

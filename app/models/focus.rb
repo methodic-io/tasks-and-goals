@@ -3,11 +3,12 @@
 
 # The core conceptual interest that describes a Goal.
 class Focus < ActiveRecord::Base
+  include Deletable
+  include Positionable
+
   self.table_name = 'foci'
 
-  validates :label,    presence:     true
-  validates :position, numericality: { greater_than_or_equal_to: 0 }
-  validates :position, numericality: { only_integer: true }
+  validates :label, presence: true
 
   has_many :goals
 end

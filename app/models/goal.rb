@@ -4,21 +4,19 @@
 # The object of ambition and effort. The completeion of associated tasks move
 # the user closer to the desired achievement.
 class Goal < ActiveRecord::Base
-  validates :label,      presence:     true
-  validates :position,   numericality: { greater_than_or_equal_to: 0 }
-  validates :position,   numericality: { only_integer: true }
-  validates :difficulty, numericality: { only_integer: true }
-  validates :difficulty, inclusion:    { in: 0..5 }
-  validates :difficulty, exclusion:    { in: [-1, 6] }
-  validates :importance, numericality: { only_integer: true }
-  validates :importance, inclusion:    { in: 0..3 }
-  validates :importance, exclusion:    { in: [-1, 4] }
-  validates :urgency,    numericality: { only_integer: true }
-  validates :urgency,    inclusion:    { in: 0..3 }
-  validates :urgency,    exclusion:    { in: [-1, 4] }
+  include Classifiable
+  include Completable
+  include Deferrable
+  include Deletable
+  include Positionable
+  include Schedulable
+
+  validates :label, presence: true
 
   belongs_to :focus
   has_many   :lists
 
-  serialize :deferred_at, Array
+  def smart?
+    specific? && measurable? && attainable? && relevant? && timely?
+  end
 end
