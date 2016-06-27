@@ -11,6 +11,8 @@ gem 'sqlite3'
 gem 'sass-rails', '~> 5.0'
 # Use Haml for views.
 gem 'haml-rails', '~> 0.9'
+# Use React in the front-end
+gem 'react-rails'
 # Use Uglifier as compressor for JavaScript assets.
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views.
