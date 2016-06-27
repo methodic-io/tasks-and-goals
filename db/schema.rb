@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160605120417) do
+ActiveRecord::Schema.define(version: 20160618180856) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20160605120417) do
     t.text     "note"
     t.datetime "due_at"
     t.datetime "reminder_at"
-    t.string   "repeat_frequency"
+    t.integer  "repeat_frequency"
     t.integer  "difficulty",        default: 0
     t.integer  "importance",        default: 0
     t.integer  "urgency",           default: 0

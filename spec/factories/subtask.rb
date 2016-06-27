@@ -3,7 +3,11 @@
 
 FactoryGirl.define do
   factory :subtask do
-    label        Faker::Lorem.sentence
-    completed_at Faker::Time.forward(10)
+    label        { generate(:label) }
+    completed_at { Faker::Time.forward(10) }
+
+    trait :incomplete do
+      completed_at nil
+    end
   end
 end

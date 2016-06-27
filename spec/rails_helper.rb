@@ -62,4 +62,34 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Configure a short-lived standalone Redis process to help test the Resque
+  # integration.
+  # https://github.com/resque/resque/wiki/RSpec-and-Resque
+
+  REDIS_PID = "#{Rails.root}/tmp/pids/redis-test.pid"
+  REDIS_CACHE_PATH = "#{Rails.root}/tmp/cache/"
+
+  config.before(:suite) do
+    redis_options = {
+      'daemonize'     => 'yes',
+      'pidfile'       => REDIS_PID,
+      'port'          => 9736,
+      'timeout'       => 300,
+      'save 900'      => 1,
+      'save 300'      => 1,
+      'save 60'       => 10_000,
+      'dbfilename'    => 'dump.rdb',
+      'dir'           => REDIS_CACHE_PATH,
+      'loglevel'      => 'debug',
+      'logfile'       => 'stdout',
+      'databases'     => 16
+    }.map { |k, v| "#{k} \"#{v}\"" }.join('\n')
+    `echo '#{redis_options}' | redis-server -`
+  end
+
+  config.after(:suite) do
+    `cat "#{REDIS_PID}" | xargs kill -QUIT`
+    `rm -f "#{REDIS_CACHE_PATH}dump.rdb"`
+  end
 end

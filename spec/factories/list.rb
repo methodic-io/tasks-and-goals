@@ -3,9 +3,10 @@
 
 FactoryGirl.define do
   factory :list do
-    positions = (1..10).to_a
+    label { generate(:label) }
 
-    label          Faker::Lorem.sentence
-    task_positions positions
+    trait :with_tasks do
+      tasks { Array.new(5) { create(:task) }.shuffle! }
+    end
   end
 end
