@@ -461,8 +461,8 @@ RSpec.describe Task do
   end
 
   describe '#exchange_positions' do
-    context 'when given 2 tasks' do
-      context 'and neither task belongs to the list' do
+    context 'when given 2 subtasks' do
+      context 'and neither subtask belongs to the list' do
         it 'raises an error' do
           subtask_a = create(:subtask)
           subtask_b = create(:subtask)
@@ -471,7 +471,7 @@ RSpec.describe Task do
         end
       end
 
-      context 'and one of the two tasks belongs to the list' do
+      context 'and one of the two subtasks belongs to the task' do
         it 'raises an error' do
           subtask_a = create(:subtask)
           subtask_b = create(:subtask)
@@ -481,7 +481,7 @@ RSpec.describe Task do
         end
       end
 
-      context 'and both tasks belongs to the list' do
+      context 'and both subtasks belongs to the task' do
         it "swaps the subtasks' ids in subtask_positions" do
           subtask_a = create(:subtask)
           subtask_b = create(:subtask)
@@ -496,7 +496,7 @@ RSpec.describe Task do
       end
     end
 
-    context 'when given anything other than two tasks' do
+    context 'when given anything other than two subtasks' do
       it 'raises an error' do
         expect { subject.exchange_positions(build(:task), build(:goal)) }
           .to raise_error(TypeError)

@@ -171,8 +171,8 @@ RSpec.describe Group do
   end
 
   describe '#exchange_positions' do
-    context 'when given 2 groups' do
-      context 'and neither group belongs to the list' do
+    context 'when given 2 lists' do
+      context 'and neither list belongs to the group' do
         it 'raises an error' do
           list_a = create(:list)
           list_b = create(:list)
@@ -181,7 +181,7 @@ RSpec.describe Group do
         end
       end
 
-      context 'and one of the two groups belongs to the list' do
+      context 'and one of the two lists belongs to the group' do
         it 'raises an error' do
           list_a = create(:list)
           list_b = create(:list)
@@ -191,7 +191,7 @@ RSpec.describe Group do
         end
       end
 
-      context 'and both groups belongs to the list' do
+      context 'and both lists belongs to the group' do
         it "swaps the lists' ids in list_positions" do
           list_a = create(:list)
           list_b = create(:list)
@@ -206,7 +206,7 @@ RSpec.describe Group do
       end
     end
 
-    context 'when given anything other than two groups' do
+    context 'when given anything other than two lists' do
       it 'raises an error' do
         expect { subject.exchange_positions(build(:group), build(:goal)) }
           .to raise_error(TypeError)
