@@ -7,6 +7,7 @@ RSpec.describe List do
   let(:subject) { create(:list, :with_tasks) }
 
   it { should respond_to(:label) }
+  it { should respond_to(:note) }
   it { should respond_to(:task_positions) }
 
   # List postions are now the responsibility of the parent Group
@@ -20,6 +21,10 @@ RSpec.describe List do
 
   describe '#label' do
     it { expect(subject.label).to be_a(String) }
+  end
+
+  describe '#note' do
+    it { expect(subject.note).to be_a(String) }
   end
 
   describe '#task_positions' do
