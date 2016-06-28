@@ -115,25 +115,26 @@ RSpec.describe Goal do
 
     it do
       expect { subject.defer }.to change { subject.deferred_at.count }.by(1)
-      expect(subject.deferred_at.last.to_s).to eq(Time.current.to_s)
+      expect(subject.deferred_at.last).to be_within(1.second).of Time.current
     end
 
     it 'should defer the due_at property to tomorrow by default' do
-      expect { subject.defer }.to change { subject.due_at.to_s }
-        .to(1.day.from_now.to_s)
+      expect { subject.defer }.to change { subject.due_at }
+        .to be_within(1.second).of 1.day.from_now
     end
 
     it 'should defer the due_at property by the given duration' do
       duration = rand(2..10).days
-      expect { subject.defer(duration) }.to change { subject.due_at.to_s }
-        .to(duration.from_now.to_s)
+      expect { subject.defer(duration) }.to change { subject.due_at }
+        .to be_within(1.second).of duration.from_now
     end
 
     it 'should do nothing if the due_at property is not set' do
       subject = build(:goal, :not_due)
       expect { subject.defer }.not_to change { subject.deferred_at }
       expect { subject.defer }.not_to change { subject.due_at }
-      expect(subject.deferred_at.last.to_s).not_to eq(Time.current.to_s)
+      expect(subject.deferred_at.last)
+        .not_to be_within(1.second).of Time.current
     end
   end
 
@@ -159,7 +160,9 @@ RSpec.describe Goal do
 
     it do
       expect { subject.complete }
-        .to change { subject.completed_at.to_s }.from('').to(Time.current.to_s)
+        .to change { subject.completed_at }
+        .from(nil)
+        .to be_within(1.second).of Time.current
     end
   end
 

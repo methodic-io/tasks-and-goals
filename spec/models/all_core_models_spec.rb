@@ -29,7 +29,7 @@ RSpec.describe 'All Core Models' do
 
         subject.delete
 
-        expect(subject.deleted_at.to_s).to eq(Time.current.to_s)
+        expect(subject.deleted_at).to be_within(1.second).of Time.current
         expect(subject.deleted?).to be_truthy
         expect(subject.active?).to  be_falsey
 

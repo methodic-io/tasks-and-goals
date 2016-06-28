@@ -25,8 +25,7 @@ RSpec.describe List do
   describe '#task_positions' do
     it { expect(subject.task_positions).to be_an(Array) }
     it do
-      expect(subject.task_positions.map(&:class).uniq)
-        .to match_array([Fixnum])
+      expect(subject.task_positions.map(&:class).uniq).to match_array([Fixnum])
     end
   end
 

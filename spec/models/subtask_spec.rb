@@ -33,7 +33,9 @@ RSpec.describe Subtask do
 
     it do
       expect { subject.complete }
-        .to change { subject.completed_at.to_s }.from('').to(Time.current.to_s)
+        .to change { subject.completed_at }
+        .from(nil)
+        .to be_within(1.second).of Time.current
     end
   end
 
