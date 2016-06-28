@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160618180856) do
+ActiveRecord::Schema.define(version: 20160628182552) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20160618180856) do
     t.string   "label"
     t.integer  "goal_id"
     t.text     "task_positions"
+    t.text     "note"
   end
 
   create_table "subtasks", force: :cascade do |t|
