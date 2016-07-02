@@ -31,10 +31,10 @@
 //
 // For more information: http://github.com/modeset/teaspoon
 //
-// Chai
-// If you're using Chai, you'll probably want to initialize your preferred assertion style. You can read more about Chai
-// at: http://chaijs.com/guide/styles
-//
-// window.assert = chai.assert;
-// window.expect = chai.expect;
-// window.should = chai.should();
+
+// Require Chai via the asset pipeline.
+//= require chai
+
+window.assert = chai.assert;
+window.expect = chai.expect;
+window.should = chai.should();
