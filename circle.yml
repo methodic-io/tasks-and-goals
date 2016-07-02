@@ -5,7 +5,11 @@ machine:
 dependencies:
   pre:
     - cp config/resque.yml.example config/resque.yml
-    
+
 test:
   override:
     - bundle exec rake
+
+database:
+  override:
+    - bundle exec rails db:create; bundle exec rails db:migrate; bundle exec rails db:migrate RAILS_ENV=test
