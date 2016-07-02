@@ -64,6 +64,13 @@ group :development, :test do
   gem 'coveralls', require: false
   # Use Rubocop for static code analysis.
   gem 'rubocop', require: false
+
+  # Use Teaspoon as a Javascript test runner.
+  gem 'teaspoon'
+  # Use Mocha with Teaspoon as a JS testing framework.
+  gem 'teaspoon-mocha'
+  # Use Chai for JS assertions.
+  gem 'chai-rails'
 end
 
 group :development do
