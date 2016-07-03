@@ -5,7 +5,7 @@ require 'rails_helper'
 require 'importers/wunderlist_importer'
 
 RSpec.describe WunderlistImporter do
-  importer = WunderlistImporter.new(WUNDERLIST_EXPORT)
+  importer = described_class.new(WUNDERLIST_EXPORT)
   data     = importer.input['data']
 
   importer.import(truncate_existing_data: true)

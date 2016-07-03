@@ -7,12 +7,11 @@ class ObjectFactory
   attr_reader :instance
 
   def initialize(object)
-    @object = object
+    @instance = object.new
   end
 
   def build(data)
-    @data     = data
-    @instance = @object.new
+    @data = data
     manufacture
     self
   end

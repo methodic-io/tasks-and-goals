@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160618180856) do
+ActiveRecord::Schema.define(version: 20160628182552) do
 
   create_table "foci", force: :cascade do |t|
     t.datetime "created_at"
@@ -48,10 +47,9 @@ ActiveRecord::Schema.define(version: 20160618180856) do
     t.integer  "list_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["group_id"], name: "index_groupings_on_group_id"
+    t.index ["list_id"], name: "index_groupings_on_list_id"
   end
-
-  add_index "groupings", ["group_id"], name: "index_groupings_on_group_id"
-  add_index "groupings", ["list_id"], name: "index_groupings_on_list_id"
 
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at"
@@ -68,10 +66,9 @@ ActiveRecord::Schema.define(version: 20160618180856) do
     t.integer  "task_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["list_id"], name: "index_listings_on_list_id"
+    t.index ["task_id"], name: "index_listings_on_task_id"
   end
-
-  add_index "listings", ["list_id"], name: "index_listings_on_list_id"
-  add_index "listings", ["task_id"], name: "index_listings_on_task_id"
 
   create_table "lists", force: :cascade do |t|
     t.datetime "created_at"
@@ -80,6 +77,7 @@ ActiveRecord::Schema.define(version: 20160618180856) do
     t.string   "label"
     t.integer  "goal_id"
     t.text     "task_positions"
+    t.text     "note"
   end
 
   create_table "subtasks", force: :cascade do |t|

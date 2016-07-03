@@ -1,5 +1,7 @@
 Rails:
   Enabled: true
+Style/FileName:
+  Enabled: false
 
 AllCops:
   TargetRubyVersion: 2.3
