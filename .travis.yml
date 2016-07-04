@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.3.0
+
+before_script:
+  - cp config/resque.yml.example config/resque.yml
+
+script:
+  - bundle exec rake
